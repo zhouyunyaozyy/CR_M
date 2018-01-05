@@ -37,7 +37,7 @@ module.exports = merge(webpackBaseConfig, {
             minChunks: Infinity
         }),
         new HtmlWebpackPlugin({
-            title: 'iView admin v' + package.version,
+            title: 'OM运维管理平台',
             filename: '../index.html',
             template: './src/template/index.ejs',
             inject: false
