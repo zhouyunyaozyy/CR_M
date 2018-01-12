@@ -18,8 +18,8 @@
                                 <Col span="16" style="padding-left:6px;">
                                     <Row class-name="made-child-con-middle" type="flex" align="middle">
                                         <div>
-                                            <b class="card-user-infor-name">Admin</b>
-                                            <p>super admin</p>
+                                            <b class="card-user-infor-name">shanji</b>
+                                            <p>superman</p>
                                         </div>
                                     </Row>
                                 </Col>
@@ -204,19 +204,19 @@ export default {
         return {
             toDoList: [
                 {
-                    title: '去iView官网学习完整的iView组件'
+                    title: '去超人招聘'
                 },
                 {
-                    title: '去iView官网学习完整的iView组件'
+                    title: '去超人招聘'
                 },
                 {
-                    title: '去iView官网学习完整的iView组件'
+                    title: '去超人招聘'
                 },
                 {
-                    title: '去iView官网学习完整的iView组件'
+                    title: '去超人招聘'
                 },
                 {
-                    title: '去iView官网学习完整的iView组件'
+                    title: '去超人招聘'
                 }
             ],
             count: {
