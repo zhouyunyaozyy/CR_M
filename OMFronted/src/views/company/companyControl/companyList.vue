@@ -68,6 +68,9 @@ export default {
                                 click: () => {
                                   this.update(params.row)
                                 }
+                              },
+                              style: {
+                                marginRight: '2px'
                               }
                             }, '编辑'),
                             h('Button', {
@@ -79,6 +82,9 @@ export default {
                                 click: () => {
                                   this.manager(params.row)
                                 }
+                              },
+                              style: {
+                                marginRight: '2px'
                               }
                             }, '主账号'),
                             h('Button', {
@@ -88,8 +94,11 @@ export default {
                               },
                               on: {
                                 click: () => {
-                                  this.children(params.row.nid)
+                                  this.children(params.row)
                                 }
+                              },
+                              style: {
+                                marginRight: '2px'
                               }
                             }, '子账号'),
                             h('Button', {
@@ -138,36 +147,29 @@ export default {
         }, nowThis: this})
       },
       update(data) {
-          parent.vm.addTabs({
-              code: "companyDetail" + data.cid,
-              label: "企业详情",
-              url: "/company/toEdit",
-              data: {status: "update", cid: data.cid}
-          });
+          this.$router.push({
+						name: 'company_Detail',
+						query: {cid: data.cid}
+          })
       },  // 查看基本信息
       manager(data) {
-          parent.vm.addTabs({
-              code: "companyManager" + data.cid,
-              label: "主帐号管理",
-              url: "/company/toManager",
-              data: {cid: data.cid}
-          });
+          this.$router.push({
+						name: 'manager_detail',
+						query: {cid: data.cid}
+          })
       },
       children(data) {
-          parent.vm.addTabs({
-              code: "companyChildren" + data.cid,
-              label: "子账号管理",
-              url: "/company/toChildren",
-              data: {status: "insert", cid: data.cid}
-          });
+        console.log(data)
+          this.$router.push({
+						name: 'children_list',
+						query: {cid: data.cid}
+          })
       },
       jobList(data) {
-          parent.vm.addTabs({
-              code: "companyJobList" + data.cid,
-              label: "职位管理",
-              url: "/company/toJobList",
-              data: {status: "insert", cid: data.cid}
-          });
+          this.$router.push({
+						name: 'job_list',
+						query: {cid: data.cid}
+          })
       },
       handleCurrentChange (val) {
         this.$handleCurrentChange(val, this.getTableData, this)

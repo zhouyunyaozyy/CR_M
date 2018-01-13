@@ -62,7 +62,11 @@ export const otherRouter = {
 //        { path: 'shopping', title: '购物详情', name: 'shopping', component: resolve => { require(['@/views/advanced-router/component/shopping-info.vue'], resolve); } }, // 用于展示带参路由
 //        { path: 'message', title: '消息中心', name: 'message_index', component: resolve => { require(['@/views/message/message.vue'], resolve); } }
       { path: 'news_list', title: '文章列表', name: 'news_list', component: resolve => { require(['@/views/marketing/news/news/newsList.vue'], resolve); } },
-      { path: 'news_detail', title: '编辑/添加文章', name: 'news_detail', component: resolve => { require(['@/views/marketing/news/news/newsDetail.vue'], resolve); } }
+      { path: 'news_detail', title: '编辑/添加文章', name: 'news_detail', component: resolve => { require(['@/views/marketing/news/news/newsDetail.vue'], resolve); } },
+      { path: 'auditManagement_detail', title: '认证详情', name: 'auditManagement_detail', component: resolve => { require(['@/views/applicationPlatform/auditManagement/auditManagementDetail.vue'], resolve); } },
+      { path: 'manager_detail', title: '主账号管理', name: 'manager_detail', component: resolve => { require(['@/views/company/manager/managerDetail.vue'], resolve); } },
+      { path: 'children_list', title: '子账号管理', name: 'children_list', component: resolve => { require(['@/views/company/children/childrenList.vue'], resolve); } },
+      { path: 'job_list', title: '职位管理', name: 'job_list', component: resolve => { require(['@/views/company/job/jobList.vue'], resolve); } }
     ]
 };
 
@@ -202,17 +206,17 @@ export const appRouter = [
 //            { path: 'table2image', title: '表格转图片', name: 'table-to-image', icon: 'images', component: resolve => { require(['@/views/tables/table-to-image.vue'], resolve); } }
 //        ]
 //    },
-    {
-        path: '/advanced-router',
-        icon: 'ios-infinite',
-        name: 'advanced-router',
-        title: '高级路由',
-        component: Main,
-        children: [
-            { path: 'mutative-router', title: '动态路由', name: 'mutative-router', icon: 'link', component: resolve => { require(['@/views/advanced-router/mutative-router.vue'], resolve); } },
-            { path: 'argument-page', title: '带参页面', name: 'argument-page', icon: 'android-send', component: resolve => { require(['@/views/advanced-router/argument-page.vue'], resolve); } }
-        ]
-    },
+//    {
+//        path: '/advanced-router',
+//        icon: 'ios-infinite',
+//        name: 'advanced-router',
+//        title: '高级路由',
+//        component: Main,
+//        children: [
+//            { path: 'mutative-router', title: '动态路由', name: 'mutative-router', icon: 'link', component: resolve => { require(['@/views/advanced-router/mutative-router.vue'], resolve); } },
+//            { path: 'argument-page', title: '带参页面', name: 'argument-page', icon: 'android-send', component: resolve => { require(['@/views/advanced-router/argument-page.vue'], resolve); } }
+//        ]
+//    },
 //    {
 //        path: '/error-page',
 //        icon: 'android-sad',
@@ -286,6 +290,16 @@ export const appRouter = [
         children: [
           { path: 'company_list', title: '企业列表', name: 'company_list', component: resolve => { require(['@/views/company/companyControl/companyList.vue'], resolve); } },
           { path: 'company_Detail', title: '新增/编辑企业', name: 'company_Detail', component: resolve => { require(['@/views/company/companyControl/companyDetail.vue'], resolve); } }
+        ]
+    },
+    {
+        path: '/applicationPlatform',
+        icon: 'key',
+        name: 'applicationPlatform',
+        title: '审核管理',
+        component: Main,
+        children: [
+          { path: 'auditManagement_list', title: '待审核列表', name: 'auditManagement_list', component: resolve => { require(['@/views/applicationPlatform/auditManagement/auditManagementList.vue'], resolve); } }
         ]
     }
 ];

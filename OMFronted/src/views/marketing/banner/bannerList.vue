@@ -58,43 +58,6 @@ export default {
     name: 'appSystem',
     data () {
         return {
-//          <el-table-column
-//                    type="selection"
-//                    width="55">
-//            </el-table-column>
-//            <el-table-column
-//                    prop="type"
-//                    label="类型"
-//                    width="180">
-//            </el-table-column>
-//            <el-table-column
-//                    prop="title"
-//                    label="标题">
-//            </el-table-column>
-//            <el-table-column
-//                    label="发送时间">
-//                <template scope="scope">
-//                    {{scope.row.create_time|dateTime}}
-//                </template>
-//            </el-table-column>
-//            <el-table-column
-//                    prop="create_name"
-//                    label="发送人">
-//            </el-table-column>
-//            <el-table-column
-//                    prop="status"
-//                    label="状态">
-//            </el-table-column>
-//            <el-table-column
-//                    label="操作">
-//                <template scope="scope">
-//                    <Button @click="editBanner(scope.row)" type="text" size="small">编辑</Button>
-//                    <Button @click="activateBanner(scope.row)" type="text" size="small" v-if="scope.row.status==0">上架
-//                    </Button>
-//                    <Button @click="disableBanner(scope.row)" type="text" size="small" v-if="scope.row.status==1">下架
-//                    </Button>
-//                </template>
-//            </el-table-column>
           columns: [
               {
                   title: '类型',

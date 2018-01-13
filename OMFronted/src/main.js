@@ -60,10 +60,10 @@ Vue.prototype.$axios = function (params) {
       resultData = base64Data+'.'+hmacData
   }
 //
-  let baseUrl = 'http://192.168.1.115:8765'
+//  let baseUrl = 'http://192.168.1.115:8765'
+  let baseUrl = 'http://api-test.chaorenjob.com'
   if (params.type === 'get') {
-    axios.get(baseUrl + params.url, {withCredentials:false, headers: {"Content-Type": "application/x-www-form-urlencoded ", "Accept" : "*/*", 'CR-token': resultData},
-        timeout:3000})
+    axios.get(baseUrl + params.url, {withCredentials:false, headers: {"Content-Type": "application/x-www-form-urlencoded ", "Accept" : "*/*", 'CR-token': resultData}})
       .then(function(response){
         if (response.data.code != 1) {
           params.nowThis.$Modal.warning({
@@ -93,8 +93,7 @@ Vue.prototype.$axios = function (params) {
       qs.stringify(params.data), 
       {
         withCredentials:false, 
-        headers: {"Content-Type": "application/x-www-form-urlencoded ", "Accept" : "*/*", 'CR-token': resultData},
-        timeout:3000
+        headers: {"Content-Type": "application/x-www-form-urlencoded ", "Accept" : "*/*", 'CR-token': resultData}
       })
       .then(function(response){
         if (response.data.code !== 1) {
@@ -125,6 +124,10 @@ Vue.prototype.$limit = 3
 Vue.prototype.$handleCurrentChange = function (val, fuc, nowThis) {
   nowThis.$start = val
   fuc()
+}
+Vue.prototype.$closeAndGoParent = function (oldName, goName) {
+  this.$store.commit('removeTag', oldName)
+  this.$router.push(goName)
 }
 
 new Vue({

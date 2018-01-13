@@ -37,12 +37,12 @@
     }
 </style>
 <template>
-<div id="form" class="content">
+<div class="content">
     <span>企业</span>
     <Form ref="form" :model="form" :rules="rules" :label-width="80">
         <Row>
             <Col :span="12">
-                <FormItem label="Logo" required>
+                <FormItem label="Logo">
                     <div class="demo-upload-list" v-for="item in uploadList">
                       <template v-if="item.status === 'finished'">
                           <img :src="item.url">
@@ -76,7 +76,7 @@
                       <img :src="imgName" v-if="visible" style="width: 100%">
                   </Modal>
                 </FormItem>
-                <FormItem label="形象展示" required>
+                <FormItem label="形象展示">
                     <div class="demo-upload-list" v-for="item in uploadListContent">
                       <template v-if="item.status === 'finished'">
                           <img :src="item.url">
@@ -142,11 +142,11 @@
                     <Input type="textarea" v-model="form.profile"></Input>
                 </FormItem>
                 <br/>
-                <FormItem>
+                <FormItem v-if='!this.cid'>
                     <Button type="primary" @click="insert">增加</Button>
                     <Button @click="clearData">清空</Button>
                 </FormItem>
-                <FormItem>
+                <FormItem v-else>
                     <Button type="primary" @click="update">修改</Button>
                 </FormItem>
             </Col>
@@ -186,7 +186,7 @@ export default {
               website: [{required: true, message: '请输入网址', trigger: 'blur'},],
               character: [{required: true, message: '请选择性质', trigger: 'change'}],
               fleet_size: [{required: true, message: '请选择规模', trigger: 'change'}],
-              base_address_arr: [{required: true, message: '请选择主营基地', trigger: 'change'}],
+              base_address_arr: [{type: 'array', required: true, message: '请选择主营基地', trigger: 'change'}],
               profile: [{required: true, message: '请输入简介', trigger: 'blur'}]
           },
           imagesUrl: [],
@@ -233,25 +233,38 @@ export default {
               }
           }
           this.localData.area = area
-          console.log(this.localData.area)
         }, nowThis: this})
-
         if (this.cid) {
-            this.ajaxData("/company/getCompanyByCid", {cid: this.tabsData.cid}, (result) => {
-                console.log(result)
-                this.form = result.data;
-                this.form.logo = res.data.logo;
-                this.logoUrl = res.data.logoUrl;
-                this.form.images = res.data.images.split(',');
-                for (let val of res.data.imagesUrl) {
-                    this.imagesUrl.push({url: val})
-                }
-                var arr = [];
-                var first = this.form.base_address + "";
-                arr.push(parseInt(first.substr(0, 2) + "0000"));
-                arr.push(parseInt(this.form.base_address));
-                this.form.base_address_arr = arr;
+          this.$axios({type: 'post', url: "/company/getCompanyByCid", data: {data: JSON.stringify({cid: this.cid})}, fuc: (result) => {
+            console.log(1, result)
+//            this.form = result.data;
+            this.$nextTick(() => {
+              for (let i in result.data.logo.split(',')) {
+                this.uploadList.push({
+                  response: {key: result.data.logo.split(',')[i]},
+                  status: 'finished',
+                  url: result.data.logoUrl
+                })
+              }
+              for (let i in result.data.images.split(',')) {
+                this.uploadListContent.push({
+                  response: {key: result.data.images.split(',')[i]},
+                  status: 'finished',
+                  url: result.data.imagesUrl[i]
+                })
+              }
             })
+            var first = result.data.base_address + "";
+            this.form.base_address_arr.push(first.substr(0, 2) + "0000");
+            this.form.base_address_arr.push(result.data.base_address);
+            this.form.character = result.data.character + '';
+            this.form.fleet_size = result.data.fleet_size + '';
+            this.form.name_full = result.data.name_full;
+            this.form.name_short = result.data.name_short;
+            this.form.address = result.data.address;
+            this.form.website = result.data.website;
+            this.form.profile = result.data.profile;
+          }, nowThis: this})
         }
     },
     methods: {
@@ -321,21 +334,30 @@ export default {
           return check;
       },
       insert() {
-        console.log(this.form.base_address_arr)
-          if (this.form.base_address_arr.length !== 0) {
-              this.form.base_address = this.form.base_address_arr[this.form.base_address_arr.length - 1];
-          }
+          
+          console.log(this.form)
           this.$refs['form'].validate((valid) => {
               if (valid) {
-                  this.sure(() => {
-                      this.form.images = this.form.images.join(',');
-                      this.ajaxData("/company/addCompany", this.form, (result) => {
-                          this.tabsData.status = 'update';
-                          this.$message.success("推送成功");
-                      })
-                  });
+                console.log(this.uploadList)
+                if (this.form.base_address_arr.length !== 0) {
+                    this.form.base_address = this.form.base_address_arr[this.form.base_address_arr.length - 1];
+                }
+//                  this.sure(() => {
+                let images = []
+                for (let val of this.uploadList) {
+                  images.push(val.response.key)
+                }
+                this.form.images = images.join(',');
+                this.form.logo = this.uploadList[0].response.key;
+                this.$axios({type: 'post', url: '/company/addCompany', data: {data: JSON.stringify(this.form)}, fuc: (result) => {
+                  if (result.code == 1) {
+                    this.$Message.success(result.msg)
+                    this.$closeAndGoParent('company_Detail', 'conpany_list')
+                  }
+                }, nowThis: this})
+//                  });
               } else {
-                  return false;
+                console.log(valid)
               }
           });
       },

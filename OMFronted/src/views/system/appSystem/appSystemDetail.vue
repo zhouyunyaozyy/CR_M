@@ -129,9 +129,11 @@ export default {
 //                      console.log(result)
 //                  })
                   this.$axios({type: 'post', url: "/version/addVersion", data: {data: JSON.stringify(this.form)}, fuc: (result) => {
+                    if (result.code == 1) {
+                      this.$Message.success(result.msg)
+                      this.$closeAndGoParent('appSystem_Detail', 'appSystem_List')
+                    }
                   }, nowThis: this})
-              } else {
-                  return false;
               }
           });
       },

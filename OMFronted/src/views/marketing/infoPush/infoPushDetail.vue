@@ -81,7 +81,6 @@ export default {
         onSubmit() {
             this.$refs['form'].validate((valid) => {
                 if (valid) {
-                  console.log(123)
                     this.sure();
                 }
             });
@@ -97,8 +96,11 @@ export default {
               console.log('cancle')
             },
             onOk: () => {
-              this.$axios({type: 'post', url: '/marketing/addPush', data: {data: JSON.stringify(this.form)}, fuc: (res) => {
-                this.$Message.success("推送成功");
+              this.$axios({type: 'post', url: '/marketing/addPush', data: {data: JSON.stringify(this.form)}, fuc: (result) => {
+                if (result.code == 1) {
+                  this.$Message.success(result.msg)
+                  this.$closeAndGoParent('infoPush_Detail', 'infoPush_List')
+                }
               }, nowThis: this})
             }
           })

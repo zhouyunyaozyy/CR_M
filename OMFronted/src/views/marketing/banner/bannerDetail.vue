@@ -128,7 +128,10 @@ export default {
           this.$refs['form'].validate((valid) => {
               if (valid) {
                   this.$axios({type: 'post', url: "/marketing/addBanner", data: {data: JSON.stringify(this.form)}, fuc: (result) => {
-                    this.$Message.success("增加成功");
+                    if (result.code == 1) {
+                      this.$Message.success(result.msg)
+                      this.$closeAndGoParent('banner_Detail', 'banner_List')
+                    }
                   }, nowThis: this})
               }
           });
@@ -138,7 +141,10 @@ export default {
           this.$refs['form'].validate((valid) => {
               if (valid) {
                   this.$axios({type: 'post', url: "/marketing/updateBanner", data: {data: JSON.stringify(this.form)}, fuc: (result) => {
-                    this.$Message.success("更新成功");
+                    if (result.code == 1) {
+                      this.$Message.success('更新成功')
+                      this.$closeAndGoParent('banner_Detail', 'banner_List')
+                    }
                   }, nowThis: this})
               }
           });

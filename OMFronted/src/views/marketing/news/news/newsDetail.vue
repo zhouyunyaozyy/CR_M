@@ -461,7 +461,10 @@ export default {
                 logo: imagesKey.join(','),
                 issue_time: issue_time
             })}, fuc: (result) => {
-              this.$Message.success(result.msg)
+                if (result.code == 1) {
+                  this.$Message.success(result.msg)
+                  this.$closeAndGoParent('news_Detail', 'news_List')
+                }
             }, nowThis: this})
           },
           changeType (val) {
