@@ -18,7 +18,7 @@ fs.open('./build/env.js', 'w', function(err, fd) {
 
 module.exports = merge(webpackBaseConfig, {
     output: {
-        publicPath: 'https://iview.github.io/iview-admin/dist/',  // 修改 https://iv...admin 这部分为你的服务器域名 
+        publicPath: 'http://om.chaorenjob.com/dist/',  // 修改 https://iv...admin 这部分为你的服务器域名 
         filename: '[name].[hash].js',
         chunkFilename: '[name].[hash].chunk.js'
     },
@@ -76,7 +76,6 @@ module.exports = merge(webpackBaseConfig, {
         }),
         new HtmlWebpackPlugin({
             title: 'OM运维管理平台',
-            favicon: './td_icon.ico',
             filename: '../index.html',
             template: './src/template/index.ejs',
             inject: false

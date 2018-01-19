@@ -6,7 +6,7 @@
     <Form ref="form" :model="form" :rules="rules" :label-width="80">
         <Row>
             <Col :span="12">
-                <FormItem label="Banner" prop="url">
+                <FormItem label="Banner" prop='url'>
                     <Upload
                             ref="upload"
                             action="http://upload-z2.qiniu.com"
@@ -27,10 +27,10 @@
                     </Select>
                 </FormItem>
                 <FormItem label="标题名称" prop="title">
-                    <Input v-model="form.title"></Input>
+                    <Input :maxlength="40" v-model="form.title"></Input>
                 </FormItem>
                 <FormItem label="参数" prop="args">
-                    <Input type="textarea" v-model="form.args"></Input>
+                    <Input :maxlength="2000" type="textarea" v-model="form.args"></Input>
                 </FormItem>
                 <br/>
                 <br/>
@@ -57,11 +57,12 @@ export default {
               param: '',
               title: '',
               url: '',
-              urlName: ''
+              urlname: ''
           },
           postData: {},
           rules: {
               type: [{required: true, message: '请选择类型', trigger: 'change', type: "number"}],
+              url: [{required: true, message: '请上传图片', trigger: 'blur'}],
               title: [{required: true, message: '请输入标题', trigger: 'blur'},],
               receive_type: [{required: true, message: '请选择接收类型', trigger: 'change'}],
               receive: [{required: true, message: '请输入接收对象', trigger: 'blur'},]
@@ -81,7 +82,7 @@ export default {
         this.$axios({type: 'post', url: "/marketing/getBanner", data: {data: JSON.stringify({bid: this.bid})}, fuc: (result) => {
           this.form = result.data 
           console.log(result)
-          this.$refs.upload.fileList.push({name: result.data.urlname, key: result.data.url});
+          this.$refs.upload.fileList.push({name: result.data.urlname, status: 'finished', response: {key: result.data.url}});
         }, nowThis: this})
       }
     },
@@ -89,6 +90,7 @@ export default {
       handleAvatarSuccess(res, file) {
         this.form.url = res.key;
         this.form.urlname = file.name
+        console.log(this.$refs.upload.fileList)
       },
       handleBeforeUpload(file) {
           const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -100,19 +102,13 @@ export default {
           }
           if (isHad) {
             this.$Notice.warning({
-                title: 'Up to one pictures can be uploaded.'
+                title: '上传上限为：1'
             });
           }
           if (!isLt2M) {
               this.$message.error('上传头像图片大小不能超过 2MB!');
           }
           return isJPG && isLt2M && !isHad;
-      },
-      uploadError(res, file) {
-          this.$Notice.warning({
-              title: 'The file format is incorrect',
-              desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
-          })
       },
       handleRemove(file, fileList) {
           // for (let val in this.form.urlArr) {
@@ -122,9 +118,12 @@ export default {
           // }
           this.form.url = '';
           this.form.urlname = '';
-          this.urlFileList = []
       },
       addBanner() {
+        if (!this.form.url) {
+          this.$Message.warning('请先上传banner')
+          return false
+        }
           this.$refs['form'].validate((valid) => {
               if (valid) {
                   this.$axios({type: 'post', url: "/marketing/addBanner", data: {data: JSON.stringify(this.form)}, fuc: (result) => {
@@ -138,10 +137,15 @@ export default {
 
       },
       updateBanner() {
-          this.$refs['form'].validate((valid) => {
+        if (!this.form.url) {
+          this.$Message.warning('请先上传banner')
+          return false
+        }
+        this.$refs['form'].validate((valid) => {
               if (valid) {
                   this.$axios({type: 'post', url: "/marketing/updateBanner", data: {data: JSON.stringify(this.form)}, fuc: (result) => {
                     if (result.code == 1) {
+                      this.$Message.success(result.msg)
                       this.$Message.success('更新成功')
                       this.$closeAndGoParent('banner_Detail', 'banner_List')
                     }

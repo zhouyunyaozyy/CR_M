@@ -301,6 +301,17 @@ export const appRouter = [
         children: [
           { path: 'auditManagement_list', title: '待审核列表', name: 'auditManagement_list', component: resolve => { require(['@/views/applicationPlatform/auditManagement/auditManagementList.vue'], resolve); } }
         ]
+    },
+    {
+        path: '/launchImage',
+        icon: 'key',
+        name: 'launchImage',
+        title: '开屏页管理',
+        component: Main,
+        children: [
+          { path: 'launchImage_list', title: '开屏页列表', name: 'launchImage_list', component: resolve => { require(['@/views/marketing/launchImage/launchImageList.vue'], resolve); } },
+          { path: 'launchImage_detail', title: '新增/编辑开屏页', name: 'launchImage_detail', component: resolve => { require(['@/views/marketing/launchImage/launchImagedetail.vue'], resolve); } }
+        ]
     }
 ];
 

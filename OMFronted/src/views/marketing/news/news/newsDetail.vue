@@ -177,7 +177,7 @@
           </Modal>
           
 <!--           添加文章内容-->
-          <Modal title="添加内容" @on-ok='addDialogTrue' @on-cancel='addDialogFalse' v-model="visibleContent">
+          <Modal title="添加内容" @on-ok='addDialogTrue' @on-cancel='addDialogFalse' :loading='loading' v-model="visibleContent">
             <Input placeholder='请输入文字信息' v-model='dialogData.text' v-if="dialogType == '1'"></Input>
             
             <Upload
@@ -243,6 +243,7 @@ export default {
         return {
           imgName: '',
           visible: false,
+          loading: true,
           visibleContent: false,
           formatContent: ['jpg','jpeg','png'],
           maxSize: 2048,
@@ -260,7 +261,7 @@ export default {
               ],
               profile: [
                   { required: true, message: '请输入文章摘要', trigger: 'blur' },
-                  { min: 1, max: 20, message: '长度在 20 到 40 个字符', trigger: 'blur' }
+                  { min: 20, max: 40, message: '长度在 20 到 40 个字符', trigger: 'blur' }
               ],
               type: [
                    { required: true, message: '请选择排版类型', trigger: 'change' }
@@ -355,30 +356,40 @@ export default {
           this.$set(file, 'url', result.data)
                 
           let img = new Image()
-          img.onload = () => {
-            this.$set(file, 'width', img.width)
-            this.$set(file, 'height', img.height)
-          }
+//          img.onload = () => {
+//            this.$set(file, 'width', img.width)
+//            this.$set(file, 'height', img.height)
+//          }
           img.src = result.data
+          var check = () => {
+           // 只要任何一方大于0
+           // 表示已经服务器已经返回宽高
+            if(img.width>0 || img.height>0){
+              this.$set(file, 'width', img.width)
+              this.$set(file, 'height', img.height)
+              clearInterval(set);
+            }
+          };
+          var set = setInterval(check,40);
         }, nowThis: this})
       },
       handleFormatError (file) {
           this.$Notice.warning({
-              title: 'The file format is incorrect',
-              desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+              title: '图片格式错误',
+              desc: file.name + ' 格式错误, 请上传JPG、JPEG、PNG类型图片'
           });
       },
       handleMaxSize (file) {
           this.$Notice.warning({
-              title: 'Exceeding file size limit',
-              desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+              title: '图片大小错误',
+              desc: file.name + ' 超过2M.'
           });
       },
       handleBeforeUpload (file, fileList) {
           const check = this.uploadList.length < this.imgSize;
           if (!check) {
               this.$Notice.warning({
-                  title: 'Up to ' + this.imgSize + ' pictures can be uploaded.'
+                  title: '最多可上传的数量为：' + 1
               });
           }
           return check;
@@ -387,7 +398,7 @@ export default {
           const check = this.$refs.uploadContent ? this.$refs.uploadContent.fileList.length < 1 : true;
           if (!check) {
               this.$Notice.warning({
-                  title: 'Up to ' + this.imgSize + ' pictures can be uploaded.'
+                  title: '最多可上传的数量为：' + this.imgSize
               });
           }
           return check;
@@ -405,21 +416,41 @@ export default {
           addDialogTrue() {
             let obj = {}
             obj.type = this.dialogType
-            console.log(this.content)
-            if (this.dialogType === '1') {
+            console.log(this.dialogData.text)
+            if (this.dialogType === '1' && this.dialogData.text != '') {
                 obj.content = this.dialogData.text
-            } else if (this.dialogType === '2') {
+                if (obj.content) {
+                  this.content.push(obj)
+                }
+                this.addDialogFalse()
+            } else if (this.dialogType === '2' && this.$refs.uploadContent.fileList.length > 0) {
                 console.log(this.$refs.uploadContent.fileList)
                 obj.content = this.$refs.uploadContent.fileList[0].response.key
                 obj.url = this.$refs.uploadContent.fileList[0].url
-                obj.width = this.$refs.uploadContent.fileList[0].width
-                obj.height = this.$refs.uploadContent.fileList[0].height
-            } else if (this.dialogType === '3') {
+                let checkWidth = () => {
+                 // 只要任何一方大于0
+                 // 表示已经服务器已经返回宽高
+                  console.log(this.$refs.uploadContent.fileList[0].width)
+                  if(this.$refs.uploadContent.fileList[0].width || this.$refs.uploadContent.fileList[0].height){
+                    obj.width = this.$refs.uploadContent.fileList[0].width
+                    obj.height = this.$refs.uploadContent.fileList[0].height
+                    if (obj.content) {
+                      this.content.push(obj)
+                    }
+                    this.addDialogFalse()
+                    clearInterval(setWidth);
+                  }
+                };
+                let setWidth = setInterval(checkWidth,40);
+            } else if (this.dialogType === '3' &&  this.$refs.uploadContent.fileList.length > 0) {
                  obj.content = this.$refs.uploadContent.fileList[0].response.key
                  obj.url = this.$refs.uploadContent.fileList[0].url
+                  if (obj.content) {
+                    this.content.push(obj)
+                  }
+                 this.addDialogFalse()
              }
-            this.content.push(obj)
-            this.addDialogFalse()
+            console.log(this.content)
           },
           addDialogData (text) {
             this.visibleContent = true
@@ -433,39 +464,58 @@ export default {
             }
           },
           submit () {
-            let issue_time = 0
-            let url = '/news/addNews'
-            if (this.nid) {
-                if (this.issueBool) {
-                    url = '/news/updateNewsReIssue'
-                }else {
-                    url = '/news/updateNewsOnlySave'
-                }
-            } else {
-                if (this.issueBool) {
-                    issue_time = this.issueTime.getTime()
-                }
+            if  (this.uploadList.length < 1) {
+              this.$Notice.warning({
+                title: '错误',
+                desc: '请先上传封面图'
+              });
+              return false
             }
-            let imagesKey = []
-            for (let val of this.uploadList) {
-              console.log(val)
-              imagesKey.push(val.response.key)
+            if  (this.content.length < 1) {
+              this.$Notice.warning({
+                title: '错误',
+                desc: '请编辑文章内容'
+              });
+              return false
             }
-            this.$axios({type: 'post', url: url, data: {data: JSON.stringify({
-                nid: this.nid ? this.nid : 0,
-                title: this.form.title,
-                profile: this.form.profile,
-                type: this.form.type,
-                content: JSON.stringify(this.content),
-                theme: this.ntid,
-                logo: imagesKey.join(','),
-                issue_time: issue_time
-            })}, fuc: (result) => {
-                if (result.code == 1) {
-                  this.$Message.success(result.msg)
-                  this.$closeAndGoParent('news_Detail', 'news_List')
+            this.$refs['form'].validate((valid) => {
+              if (valid) {
+                let issue_time = 0
+                let url = '/news/addNews'
+                if (this.nid) {
+                    if (this.issueBool) {
+                        url = '/news/updateNewsReIssue'
+                    }else {
+                        url = '/news/updateNewsOnlySave'
+                    }
+                } else {
+                    if (this.issueBool) {
+                        issue_time = this.issueTime.getTime()
+                    }
                 }
-            }, nowThis: this})
+                let imagesKey = []
+                for (let val of this.uploadList) {
+                  console.log(val)
+                  imagesKey.push(val.response.key)
+                }
+                this.$axios({type: 'post', url: url, data: {data: JSON.stringify({
+                    nid: this.nid ? this.nid : 0,
+                    title: this.form.title,
+                    profile: this.form.profile,
+                    type: this.form.type,
+                    content: JSON.stringify(this.content),
+                    theme: this.ntid,
+                    logo: imagesKey.join(','),
+                    issue_time: issue_time
+                })}, fuc: (result) => {
+                    if (result.code == 1) {
+                      this.$Message.success(result.msg)
+                      this.$closeAndGoParent('news_detail', {name: 'news_list', query: {ntid: this.ntid}})
+                    }
+                }, nowThis: this})
+
+              }
+            })
           },
           changeType (val) {
             console.log(1, val)

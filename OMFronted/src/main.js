@@ -61,22 +61,27 @@ Vue.prototype.$axios = function (params) {
   }
 //
 //  let baseUrl = 'http://192.168.1.115:8765'
-  let baseUrl = 'http://api-test.chaorenjob.com'
+  let baseUrl = 'http://api.chaorenjob.com'
   if (params.type === 'get') {
     axios.get(baseUrl + params.url, {withCredentials:false, headers: {"Content-Type": "application/x-www-form-urlencoded ", "Accept" : "*/*", 'CR-token': resultData}})
       .then(function(response){
         if (response.data.code != 1) {
-          params.nowThis.$Modal.warning({
-            content: response.data.msg,
-            title: '警告',
-            onOk: () => {
+          params.fuc(response.data)
+          this.$Notice.warning({
+              title: '错误',
+              desc: response.data.msg
+          });
+//          params.nowThis.$Modal.warning({
+//            content: response.data.msg,
+//            title: '警告',
+//            onOk: () => {
 //              params.nowThis.$store.commit('logout', this);
 //              params.nowThis.$store.commit('clearOpenedSubmenu');
 //              params.nowThis.$router.push({
 //                  name: 'login'
 //              })
-            }
-          })
+//            }
+//          })
         } else {
           params.fuc(response.data)
         }
@@ -120,8 +125,9 @@ Vue.prototype.$axios = function (params) {
   }
 }
 Vue.prototype.$start = 1
-Vue.prototype.$limit = 3
+Vue.prototype.$limit = 15
 Vue.prototype.$handleCurrentChange = function (val, fuc, nowThis) {
+  console.log(val)
   nowThis.$start = val
   fuc()
 }

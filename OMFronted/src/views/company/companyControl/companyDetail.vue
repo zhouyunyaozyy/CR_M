@@ -42,7 +42,7 @@
     <Form ref="form" :model="form" :rules="rules" :label-width="80">
         <Row>
             <Col :span="12">
-                <FormItem label="Logo">
+                <FormItem label="Logo" required>
                     <div class="demo-upload-list" v-for="item in uploadList">
                       <template v-if="item.status === 'finished'">
                           <img :src="item.url">
@@ -76,7 +76,7 @@
                       <img :src="imgName" v-if="visible" style="width: 100%">
                   </Modal>
                 </FormItem>
-                <FormItem label="形象展示">
+                <FormItem label="形象展示" required>
                     <div class="demo-upload-list" v-for="item in uploadListContent">
                       <template v-if="item.status === 'finished'">
                           <img :src="item.url">
@@ -271,13 +271,13 @@ export default {
       handleFormatError (file) {
           this.$Notice.warning({
               title: 'The file format is incorrect',
-              desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+              desc: file.name + '格式不正确，请上传 jpg or png.'
           });
       },
       handleMaxSize (file) {
           this.$Notice.warning({
               title: 'Exceeding file size limit',
-              desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+              desc: file.name + '文件太大，限制为2M.'
           });
       },
       handleView (item) {
@@ -319,7 +319,7 @@ export default {
           const check = this.uploadList.length < 1;
           if (!check) {
               this.$Notice.warning({
-                  title: 'Up to ' + 1 + ' pictures can be uploaded.'
+                  title: '上传上限为：1'
               });
           }
           return check;
@@ -328,7 +328,7 @@ export default {
           const check = this.uploadListContent.length < 3;
           if (!check) {
               this.$Notice.warning({
-                  title: 'Up to ' + 3 + ' pictures can be uploaded.'
+                  title: '上传上限为：3'
               });
           }
           return check;
@@ -344,7 +344,7 @@ export default {
                 }
 //                  this.sure(() => {
                 let images = []
-                for (let val of this.uploadList) {
+                for (let val of this.uploadListContent) {
                   images.push(val.response.key)
                 }
                 this.form.images = images.join(',');
@@ -352,16 +352,37 @@ export default {
                 this.$axios({type: 'post', url: '/company/addCompany', data: {data: JSON.stringify(this.form)}, fuc: (result) => {
                   if (result.code == 1) {
                     this.$Message.success(result.msg)
-                    this.$closeAndGoParent('company_Detail', 'conpany_list')
+                    this.$closeAndGoParent('company_Detail', 'company_list')
                   }
                 }, nowThis: this})
 //                  });
-              } else {
-                console.log(valid)
               }
           });
       },
       update() {
+        console.log(this.form)
+        this.$refs['form'].validate((valid) => {
+            if (valid) {
+              this.form.cid = this.cid
+              if (this.form.base_address_arr.length !== 0) {
+                  this.form.base_address = this.form.base_address_arr[this.form.base_address_arr.length - 1];
+              }
+//                  this.sure(() => {
+              let images = []
+              for (let val of this.uploadListContent) {
+                images.push(val.response.key)
+              }
+              this.form.images = images.join(',');
+              this.form.logo = this.uploadList[0].response.key;
+              this.$axios({type: 'post', url: '/company/updateCompany', data: {data: JSON.stringify(this.form)}, fuc: (result) => {
+                if (result.code == 1) {
+                  this.$Message.success(result.msg)
+                  this.$closeAndGoParent('company_Detail', 'company_list')
+                }
+              }, nowThis: this})
+//                  });
+            }
+        });
       },
       clearData() {
           this.$refs['form'].resetFields();

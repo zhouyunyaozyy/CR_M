@@ -185,6 +185,8 @@ export default {
       getTableData() {
         this.$axios({type: 'post', url: "/news/queryNews", data: {_start: this.$start, _limit: this.$limit, data: JSON.stringify({theme: this.ntid})}, fuc: (result) => {
             this.tableData = result.data;
+            console.log(result)
+            this.$start = result.data.start
         }, nowThis: this})
       },
       removeTheme (val) {
@@ -193,6 +195,9 @@ export default {
             title: '提示',
             content: '确认删除[' + val.title + ']文章',
             onOk: () => {
+              if (this.tableData.count > 1 && this.tableData.count % this.tableData.pageSize == 1) {
+                this.$start-- 
+              }
               this.$axios({type: 'post', url: "/news/deleteNews", data: {data: JSON.stringify({nid: val.nid})}, fuc: (result) => {
                 this.$Message.success('删除成功')
                 this.getTableData()

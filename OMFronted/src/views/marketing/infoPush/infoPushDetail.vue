@@ -12,22 +12,22 @@
                     </Select>
                 </FormItem>
                 <FormItem label="标题名称" prop="title">
-                    <Input v-model="form.title"></Input>
+                    <Input :maxlength="12" v-model="form.title" placeholder="请输入标题"></Input>
                 </FormItem>
                 <FormItem label="推送简介" prop="profile">
-                    <Input v-model="form.profile"></Input>
+                    <Input v-model="form.profile" placeholder="请输入推送简介"></Input>
                 </FormItem>
                 <FormItem label="参数" prop="args">
-                    <Input v-model="form.args" type="textarea"></Input>
+                    <Input v-model="form.args" type="textarea" placeholder="请输入参数"></Input>
                 </FormItem>
                 <br/>
                 <FormItem label="对象类型" prop="receive_type">
-                    <Select v-model="form.receive_type" placeholder="请选择活动区域">
+                    <Select v-model="form.receive_type" placeholder="请选择对象类型">
                         <Option :label="item.name" :value="item.code" :key="item.code" v-for="item in localData.receive_type"></Option>
                     </Select>
                 </FormItem>
                 <FormItem label="接受对象" prop="receive" v-if="form.receive_type!=3">
-                    <Input v-model="form.receive"></Input>
+                    <Input v-model="form.receive" placeholder="请输入接受对象"></Input>
                 </FormItem>
                 <br/>
                 <FormItem v-if='!pid'>

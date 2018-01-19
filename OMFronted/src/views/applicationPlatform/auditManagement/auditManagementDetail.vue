@@ -106,7 +106,7 @@
         this.$axios({type: 'post', url: "/customer/auditFail", data: {data: JSON.stringify(this.form)}, fuc: (result) => {
           if (result.code == 1) {
             this.$Message.success(result.msg)
-            this.$closeAndGoParent('auditManagement_detail', 'auditManagement_list')
+            this.$closeAndGoParent('auditManagement_detail', 'applicationPlatform/auditManagement_list')
           }
         }, nowThis: this})
       },
@@ -118,7 +118,7 @@
             this.$axios({type: 'post', url: "/customer/auditSuccess", data: {data: JSON.stringify(this.form)}, fuc: (result) => {
               if (result.code == 1) {
                 this.$Message.success(result.msg)
-                this.$closeAndGoParent('auditManagement_detail', 'auditManagement_list')
+                this.$closeAndGoParent('auditManagement_detail', 'applicationPlatform/auditManagement_list')
               }
             }, nowThis: this})
           }

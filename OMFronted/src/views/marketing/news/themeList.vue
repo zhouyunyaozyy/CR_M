@@ -107,9 +107,10 @@ export default {
                 }, '栏目名称'),
                 h('Input', {
                   props: {
+                    maxlength: 4,
                     value: this.form.name,
                     autofocus: true,
-                    placeholder: 'Please enter name...'
+                    placeholder: '请输入栏目名称'
                   },
                   style: {marginBottom: '30px'},
                   on: {
@@ -127,7 +128,7 @@ export default {
                   props: {
                     value: this.form.sort,
                     autofocus: true,
-                    placeholder: 'Please enter sort...'
+                    placeholder: '请输入栏目顺序'
                   },
                   on: {
                     input: (val) => {
@@ -139,6 +140,13 @@ export default {
             ])
           },
           onOk: () => {
+            if (!this.form.name || !this.form.sort || isNaN(Number(this.form.sort)) || this.form.sort.indexOf(',') > -1) {
+              this.$Notice.warning({
+                title: '错误',
+                desc: '错误输入信息,请重新添加'
+            });
+              return false
+            }
             let url = this.form.ntid === 0 ? '/news/addNewsTheme' : '/news/updateNewTheme'
             this.$axios({type: 'post', url: url, data: {data: JSON.stringify(this.form)}, fuc: (result) => {
               if (result.code == 1) {
@@ -148,6 +156,7 @@ export default {
                 this.getTableData()
                 this.$Message.success(result.msg)
               }
+//              this.$Modal.remove();
             }, nowThis: this})
           },
           onCancel: () => {
@@ -174,6 +183,9 @@ export default {
           title: '提示',
           content: '确认删除[' + val.name + ']栏目(栏目内的文章将同步删除)',
           onOk: () => {
+            if (this.tableData.count > 1 && this.tableData.count % this.tableData.pageSize == 1) {
+              this.$start-- 
+            }
             this.$axios({type: 'post', url: "/news/deleteNewsTheme", data: {data: JSON.stringify({ntid: val.ntid})}, fuc: (result) => {
               this.$Message.success('删除成功')
               this.getTableData()
