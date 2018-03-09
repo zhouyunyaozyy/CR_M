@@ -66,7 +66,8 @@ export const otherRouter = {
       { path: 'auditManagement_detail', title: '认证详情', name: 'auditManagement_detail', component: resolve => { require(['@/views/applicationPlatform/auditManagement/auditManagementDetail.vue'], resolve); } },
       { path: 'manager_detail', title: '主账号管理', name: 'manager_detail', component: resolve => { require(['@/views/company/manager/managerDetail.vue'], resolve); } },
       { path: 'children_list', title: '子账号管理', name: 'children_list', component: resolve => { require(['@/views/company/children/childrenList.vue'], resolve); } },
-      { path: 'job_list', title: '职位管理', name: 'job_list', component: resolve => { require(['@/views/company/job/jobList.vue'], resolve); } }
+      { path: 'job_list', title: '职位管理', name: 'job_list', component: resolve => { require(['@/views/company/job/jobList.vue'], resolve); } },
+      { path: 'appRecruit_detail', title: '简历审核', name: 'appRecruit_detail', component: resolve => { require(['@/views/applicationPlatform/appRecruit/appRecruitDetail.vue'], resolve); } }
     ]
 };
 
@@ -257,7 +258,7 @@ export const appRouter = [
         component: Main,
         children: [
           { path: 'infoPush_List', title: '推送列表', name: 'infoPush_List', component: resolve => { require(['@/views/marketing/infoPush/infoPushList.vue'], resolve); } },
-          { path: 'infoPush_Detail', title: '新增/编辑推送', name: 'infoPush_Detail', component: resolve => { require(['@/views/marketing/infoPush/infoPushDetail.vue'], resolve); } }
+          { path: 'infoPush_Detail', title: '新增/查看推送', name: 'infoPush_Detail', component: resolve => { require(['@/views/marketing/infoPush/infoPushDetail.vue'], resolve); } }
         ]
     },
     {
@@ -299,7 +300,8 @@ export const appRouter = [
         title: '审核管理',
         component: Main,
         children: [
-          { path: 'auditManagement_list', title: '待审核列表', name: 'auditManagement_list', component: resolve => { require(['@/views/applicationPlatform/auditManagement/auditManagementList.vue'], resolve); } }
+          { path: 'auditManagement_list', title: '实名审核列表', name: 'auditManagement_list', component: resolve => { require(['@/views/applicationPlatform/auditManagement/auditManagementList.vue'], resolve); } },
+          { path: 'appRecruit_list', title: '简历审核列表', name: 'appRecruit_list', component: resolve => { require(['@/views/applicationPlatform/appRecruit/appRecruitList.vue'], resolve); } }
         ]
     },
     {
@@ -311,6 +313,38 @@ export const appRouter = [
         children: [
           { path: 'launchImage_list', title: '开屏页列表', name: 'launchImage_list', component: resolve => { require(['@/views/marketing/launchImage/launchImageList.vue'], resolve); } },
           { path: 'launchImage_detail', title: '新增/编辑开屏页', name: 'launchImage_detail', component: resolve => { require(['@/views/marketing/launchImage/launchImagedetail.vue'], resolve); } }
+        ]
+    },
+    {
+        path: '/competency',
+        icon: 'key',
+        name: 'competency',
+        title: '职能管理',
+        component: Main,
+        children: [
+          { path: 'competency_list', title: '职能列表', name: 'competency_list', component: resolve => { require(['@/views/marketing/competency/competencyList.vue'], resolve); } },
+          { path: 'competency_detail', title: '新增/编辑职能', name: 'competency_detail', component: resolve => { require(['@/views/marketing/competency/competencydetail.vue'], resolve); } }
+        ]
+    },
+    {
+        path: '/appList',
+        icon: 'key',
+        name: 'appList',
+        title: 'ca用户列表',
+        component: Main,
+        children: [
+          { path: 'app_list', title: 'ca用户列表', name: 'app_list', component: resolve => { require(['@/views/applicationPlatform/appList/appList.vue'], resolve); } }
+        ]
+    },
+    {
+        path: '/feedbackList',
+        icon: 'key',
+        name: 'feedbackList',
+        title: '反馈',
+        component: Main,
+        children: [
+          { path: 'hrFeedback_list', title: 'hr反馈', name: 'hrFeedback_list', component: resolve => { require(['@/views/feedback/hrFeedback.vue'], resolve); } },
+          { path: 'appFeedback_list', title: 'app反馈', name: 'appFeedback_list', component: resolve => { require(['@/views/feedback/appFeedback.vue'], resolve); } }
         ]
     }
 ];

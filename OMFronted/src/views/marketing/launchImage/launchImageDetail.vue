@@ -60,7 +60,7 @@
         </FormItem>
         <FormItem label="参数" prop="param">
           <Col span="6">
-            <Input type="textarea" v-model="form.param" placeholder="请输入参数"></Input>
+            <Input :maxlength='800' type="textarea" v-model="form.param" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入参数"></Input>
           </Col>
         </FormItem>
     </Form>
@@ -93,8 +93,7 @@
                 {pattern: /^\d{1}$/, message: '时长为1位正整数', trigger: 'blur'}
              ],
              param: [
-                { required: true, message: '请输入参数', trigger: 'blur' },
-                {pattern: /^.{1,800}$/, message: '参数为1-800位字符', trigger: 'blur'}
+                { required: true, message: '请输入参数', trigger: 'blur' }
              ]
         },
         imagesUrl: '',
@@ -157,20 +156,20 @@
       handleFormatError (file) {
           this.$Notice.warning({
               title: 'The file format is incorrect',
-              desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+              desc: file.name + '格式不正确，请重试。'
           });
       },
       handleMaxSize (file) {
           this.$Notice.warning({
               title: 'Exceeding file size limit',
-              desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+              desc: file.name + '超过2M了。'
           });
       },
       handleBeforeUpload (file, fileList) {
           const check = this.uploadList.length < 1;
           if (!check) {
               this.$Notice.warning({
-                  title: 'Up to ' + 1 + ' pictures can be uploaded.'
+                  title: '最多上传一张图片。'
               });
           }
           return check;

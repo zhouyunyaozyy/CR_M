@@ -10,6 +10,8 @@ import Cookies from 'js-cookie';
 import '@/locale';
 import 'iview/dist/styles/iview.css';
 import VueI18n from 'vue-i18n';
+import global from './global.js';
+import area from './area.json';
 //import util from '@/libs/util';
 import { VirtualScroller } from 'vue-virtual-scroller';
 
@@ -20,6 +22,10 @@ Vue.use(VueI18n);
 Vue.use(iView);
 Vue.component('virtual-scroller', VirtualScroller);
 
+Vue.prototype.$getLocalData = function (fuc) {
+  console.log(area)
+  fuc(area)
+}
 Vue.prototype.$axios = function (params) {
   // cr-token 算法
   let resultData = 0
@@ -60,8 +66,7 @@ Vue.prototype.$axios = function (params) {
       resultData = base64Data+'.'+hmacData
   }
 //
-//  let baseUrl = 'http://192.168.1.115:8765'
-  let baseUrl = 'http://api.chaorenjob.com'
+  let baseUrl = global.configSelf.api
   if (params.type === 'get') {
     axios.get(baseUrl + params.url, {withCredentials:false, headers: {"Content-Type": "application/x-www-form-urlencoded ", "Accept" : "*/*", 'CR-token': resultData}})
       .then(function(response){

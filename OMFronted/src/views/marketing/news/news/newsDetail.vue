@@ -292,8 +292,10 @@ export default {
         var editableList = Sortable.create(detailId, {
           filter: '.js-remove',
           onFilter: function (evt) {
+            console.log(evt)
             var el = editableList.closest(evt.item); // get dragged item
             el && el.parentNode.removeChild(el);
+            this.content.splice(evt.oldIndex, 1)
           }
         });
       }

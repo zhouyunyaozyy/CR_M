@@ -160,9 +160,7 @@ export default {
     },
     created () {
       this.ntid = this.$route.query.ntid
-      this.$axios({type: 'get', url: '/common/configJson', fuc: (res) => {
-        this.localData = res.data
-      }, nowThis: this})
+      this.localData = JSON.parse(window.sessionStorage.getItem('localData'))
       this.getTableData();
     },
     methods: {

@@ -152,9 +152,7 @@ export default {
       this.getTableData();
     },
     created () {
-      this.$axios({type: 'get', url: '/common/configJson', fuc: (res) => {
-        this.localData = res.data
-      }, nowThis: this})
+      this.localData = JSON.parse(window.sessionStorage.getItem('localData'))
     },
     methods: {
       onSubmit() {

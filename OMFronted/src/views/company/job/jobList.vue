@@ -159,10 +159,7 @@
     },
     created () {
       this.cid = this.$route.query.cid
-      this.$axios({type: 'get', url: '/common/configJson', fuc: (res) => {
-        this.localData = res.data
-        console.log(res.data)
-      }, nowThis: this})
+      this.localData = JSON.parse(window.sessionStorage.getItem('localData'))
       this.getTableData();
     },
     methods: {

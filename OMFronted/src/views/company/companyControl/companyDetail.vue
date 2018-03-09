@@ -210,30 +210,30 @@ export default {
         this.$axios({type: 'get', url: "/sys/qiniu/token", fuc: (result) => {
             this.postData = {token: result.data}
         }, nowThis: this})
-        this.$axios({type: 'get', url: '/common/configJson', fuc: (res) => {
-          this.localData = res.data
-          let area = []
-          for (var i of this.localData.area) {
-              if (i.children) {
-                  let arr = []
-                  for (var k = 0; k < i.children.length; k++) {
-                      delete i.children[k].children;
-                      arr.push({value: i.children[k].code,label: i.children[k].name})
-                  }
-                area.push({
-                  value: i.code,
-                  label: i.name,
-                  children: arr
-                })
-              } else {
-                area.push({
-                  value: i.code,
-                  label: i.name
-                });
-              }
-          }
-          this.localData.area = area
-        }, nowThis: this})
+        this.localData = JSON.parse(window.sessionStorage.getItem('localData'))
+        console.log(this.localData)
+        let area = []
+        for (var i of this.localData.area) {
+            if (i.children) {
+                let arr = []
+                for (var k = 0; k < i.children.length; k++) {
+                    delete i.children[k].children;
+                    arr.push({value: i.children[k].code,label: i.children[k].name})
+                }
+              area.push({
+                value: i.code,
+                label: i.name,
+                children: arr
+              })
+            } else {
+              area.push({
+                value: i.code,
+                label: i.name
+              });
+            }
+        }
+        this.localData.area = area
+        
         if (this.cid) {
           this.$axios({type: 'post', url: "/company/getCompanyByCid", data: {data: JSON.stringify({cid: this.cid})}, fuc: (result) => {
             console.log(1, result)

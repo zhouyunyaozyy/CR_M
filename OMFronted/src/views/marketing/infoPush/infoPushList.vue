@@ -54,11 +54,33 @@ export default {
           columns: [
               {
                   title: '类型',
-                  key: 'type'
+                  key: 'type',
+                  render: (h, params) => {
+                    let value = ''
+                    for (let val of this.localData.banner) {
+                      if (val.code == params.row.type) {
+                        value = val.name
+                      }
+                    }
+                    return h('span', {}, value)
+                  }
               },
               {
                   title: '接收类型',
-                  key: 'receive_type'
+                  key: 'receive_type',
+                  render: (h, params) => {
+                    let value = ''
+                    if (params.row.receive_type == 1) {
+                      value = '特定用户'
+                    } else {
+                      for (let val of this.localData.receive_type) {
+                        if (val.code == params.row.receive_type) {
+                          value = val.name
+                        }
+                      }
+                    }
+                    return h('span', {}, value)
+                  }
               },
               {
                   title: '标题',
@@ -104,9 +126,7 @@ export default {
     },
     created () {
         this.getTableData();
-        this.$axios({type: 'get', url: '/common/configJson', fuc: (res) => {
-          this.localData = res.data
-        }, nowThis: this})
+        this.localData = JSON.parse(window.sessionStorage.getItem('localData'))
     },
     computed: {
     },

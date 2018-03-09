@@ -15,7 +15,7 @@
                 </FormItem>
                 <br/>
                 <FormItem label="姓名" prop="name">
-                    <Input v-model="form.name" disabled></Input>
+                    <Input v-model="form.name"></Input>
                 </FormItem>
                 <br/>
                 <FormItem>
@@ -43,18 +43,23 @@
             mobile: [
                 {required: true, message: '请输入手机号', trigger: 'blur'},
                 {pattern: /^1[34578]\d{9}$/, message: '号码有误', trigger: 'blur'}
-            ]
+            ],
+            name: [
+                {required: true, message: '请输入姓名', trigger: 'blur'},
+                {pattern: /^[\u4e00-\u9fa5]{2,5}$/, message: '必须为2-5位中文', trigger: 'blur'}
+            ],
         }
       }
     },
     created () {
       this.cid = this.$route.query.cid;
       this.$axios({type: 'post', url: "/company/getCompanyAndManagerByCid", data: {data: JSON.stringify({cid: this.cid})}, fuc: (result) => {
+          console.log(result)
           this.form.cid = result.data.company.cid;
           this.form.companyName = result.data.company.name_full;
           this.form.mobile = result.data.manager.mobile;
           this.form.username = result.data.manager.username;
-          this.form.name = result.data.manager.name;
+          this.form.name = result.data.manager.name === '未设置' ? '' : result.data.manager.name;
         }, nowThis: this})
     },
     methods: {
@@ -77,6 +82,8 @@
       updateCompanyManager() {
         this.$axios({type: 'post', url: "/company/updateCompanyManagerMobile", data: {data: JSON.stringify(this.form)}, fuc: (result) => {
           this.$Message.success("操作成功");
+          this.$closeAndGoParent('manager_detail', 'companyControl/company_list')
+          
         }, nowThis: this})
       }
     }
