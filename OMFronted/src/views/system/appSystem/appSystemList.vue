@@ -136,7 +136,14 @@ export default {
               },
               {
                   title: '平台',
-                  key: 'app'
+                  key: 'app',
+                  render: (h, params) => {
+                    let name = '安卓'
+                    if (params.row.app == 1) {
+                      name = '苹果'
+                    }
+                    return h('span', {}, name)
+                  }
               },
               {
                   title: '内部版本',
@@ -144,13 +151,16 @@ export default {
               },
               {
                   title: '强制更新',
-                  key: 'update'
+                  key: 'update',
+                render: (h, params) => {
+                  return h('span', {}, params.row.update == 0 ? '否' : '是')
+                }
               },
               {
                   title: '创建时间',
                   key: 'create_time',
                   render: (h, params) => {
-                    return h('span', {}, new Date(params.row.create_time).toLocaleString('chinese',{hour12:false}))
+                    return h('span', {}, new Date(parseInt(params.row.create_time)).toLocaleString('chinese',{hour12:false}))
                   }
               },
               {
@@ -210,7 +220,7 @@ export default {
           console.log(val)
       },
       getTableData() {
-          this.$axios({type: 'post', url: "/version/versionList",data: {_start: this.$start, _limit: this.$limit}, fuc: (result) => {
+          this.$axios({type: 'get', url: "/dabai-chaorenjob/version/versionList",data: {_start: this.$start, _limit: this.$limit}, fuc: (result) => {
               console.log(result)
               this.tableData = result.data;
           }, nowThis: this})
@@ -223,20 +233,12 @@ export default {
               query: query
           });
       },
-      issue(data) {
-          this.$axios({type: 'post', url: "/version/versionList", fuc: (result) => {
-              data.status = 1;
-              this.$Message.success(result.msg);
-          }, nowThis: this})
-      },
       sureIssue(data) {
-          this.$Modal.warning({
-              title: "提示",
-              content: "确定发布该版本？",
-              onOk: () => {
-                this.issue(data);
-              }
-          })
+          this.$axios({type: 'post', url: "/version/versionList",data:{vid: data.vid}, fuc: (result) => {
+              data.status = 1;
+              this.$Message.success(result.msg)
+
+          }, nowThis: this})
       },
       handleCurrentChange (val) {
         this.$handleCurrentChange(val, this.getTableData, this)

@@ -67,6 +67,7 @@ export const otherRouter = {
       { path: 'manager_detail', title: '主账号管理', name: 'manager_detail', component: resolve => { require(['@/views/company/manager/managerDetail.vue'], resolve); } },
       { path: 'children_list', title: '子账号管理', name: 'children_list', component: resolve => { require(['@/views/company/children/childrenList.vue'], resolve); } },
       { path: 'job_list', title: '职位管理', name: 'job_list', component: resolve => { require(['@/views/company/job/jobList.vue'], resolve); } },
+      { path: 'children_detail', title: '新增/编辑子账号', name: 'children_detail', component: resolve => { require(['@/views/company/children/childrenDetail.vue'], resolve); } },
       { path: 'appRecruit_detail', title: '简历审核', name: 'appRecruit_detail', component: resolve => { require(['@/views/applicationPlatform/appRecruit/appRecruitDetail.vue'], resolve); } }
     ]
 };
@@ -169,18 +170,18 @@ export const appRouter = [
 //            // }
 //        ]
 //    },
-//    {
-//        path: '/form',
-//        icon: 'android-checkbox',
-//        name: 'form',
-//        title: '表单编辑',
-//        component: Main,
-//        children: [
-//            { path: 'artical-publish', title: '文章发布', name: 'artical-publish', icon: 'compose', component: resolve => { require(['@/views/form/article-publish/article-publish.vue'], resolve); } },
-//            { path: 'workflow', title: '工作流', name: 'workflow', icon: 'arrow-swap', component: resolve => { require(['@/views/form/work-flow/work-flow.vue'], resolve); } }
-//
-//        ]
-//    },
+    {
+        path: '/form',
+        icon: 'android-checkbox',
+        name: 'form',
+        title: '表单编辑',
+        component: Main,
+        children: [
+            { path: 'artical-publish', title: '文章发布', name: 'artical-publish', icon: 'compose', component: resolve => { require(['@/views/form/article-publish/article-publish.vue'], resolve); } },
+            { path: 'workflow', title: '工作流', name: 'workflow', icon: 'arrow-swap', component: resolve => { require(['@/views/form/work-flow/work-flow.vue'], resolve); } }
+
+        ]
+    },
 //    // {
 //    //     path: '/charts',
 //    //     icon: 'ios-analytics',
@@ -218,16 +219,16 @@ export const appRouter = [
 //            { path: 'argument-page', title: '带参页面', name: 'argument-page', icon: 'android-send', component: resolve => { require(['@/views/advanced-router/argument-page.vue'], resolve); } }
 //        ]
 //    },
-//    {
-//        path: '/error-page',
-//        icon: 'android-sad',
-//        title: '错误页面',
-//        name: 'errorpage',
-//        component: Main,
-//        children: [
-//            { path: 'index', title: '错误页面', name: 'errorpage_index', component: resolve => { require(['@/views/error-page/error-page.vue'], resolve); } }
-//        ]
-//    }
+    {
+        path: '/error-page',
+        icon: 'android-sad',
+        title: '错误页面',
+        name: 'errorpage',
+        component: Main,
+        children: [
+            { path: 'index', title: '错误页面', name: 'errorpage_index', component: resolve => { require(['@/views/error-page/error-page.vue'], resolve); } }
+        ]
+    },
 
 //    {
 //        path: '/access',
@@ -251,16 +252,27 @@ export const appRouter = [
         ]
     },
     {
-        path: '/infoPush',
+        path: '/systemInforms',
         icon: 'key',
-        name: 'infoPush',
-        title: '信息推送',
+        name: 'systemInforms',
+        title: '消息通知',
         component: Main,
         children: [
-          { path: 'infoPush_List', title: '推送列表', name: 'infoPush_List', component: resolve => { require(['@/views/marketing/infoPush/infoPushList.vue'], resolve); } },
-          { path: 'infoPush_Detail', title: '新增/查看推送', name: 'infoPush_Detail', component: resolve => { require(['@/views/marketing/infoPush/infoPushDetail.vue'], resolve); } }
+          { path: 'systemInforms_List', title: '消息通知列表', name: 'systemInforms_List', component: resolve => { require(['@/views/marketing/systemInforms/systemInformsList.vue'], resolve); } },
+          { path: 'systemInforms_Detail', title: '新增/查看消息通知', name: 'systemInforms_Detail', component: resolve => { require(['@/views/marketing/systemInforms/systemInformsDetail.vue'], resolve); } }
         ]
     },
+    // {
+    //     path: '/infoPush',
+    //     icon: 'key',
+    //     name: 'infoPush',
+    //     title: '信息推送',
+    //     component: Main,
+    //     children: [
+    //       { path: 'infoPush_List', title: '推送列表', name: 'infoPush_List', component: resolve => { require(['@/views/marketing/infoPush/infoPushList.vue'], resolve); } },
+    //       { path: 'infoPush_Detail', title: '新增/查看推送', name: 'infoPush_Detail', component: resolve => { require(['@/views/marketing/infoPush/infoPushDetail.vue'], resolve); } }
+    //     ]
+    // },
     {
         path: '/banner',
         icon: 'key',
@@ -323,7 +335,7 @@ export const appRouter = [
         component: Main,
         children: [
           { path: 'competency_list', title: '职能列表', name: 'competency_list', component: resolve => { require(['@/views/marketing/competency/competencyList.vue'], resolve); } },
-          { path: 'competency_detail', title: '新增/编辑职能', name: 'competency_detail', component: resolve => { require(['@/views/marketing/competency/competencydetail.vue'], resolve); } }
+          { path: 'competency_detail', title: '新增/编辑职能', name: 'competency_detail', component: resolve => { require(['@/views/marketing/competency/competencydetail2.vue'], resolve); } }
         ]
     },
     {

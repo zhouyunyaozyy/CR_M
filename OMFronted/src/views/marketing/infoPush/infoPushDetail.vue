@@ -6,6 +6,15 @@
     <Form ref="form" :model="form" :rules="rules" :label-width=80>
         <Row>
             <Col :span="12">
+                <FormItem v-if='receive_type1Bool' label="推送对象">
+                    <Input v-model="receive" type="textarea" placeholder="请输入推送内容"></Input>
+                </FormItem>
+                <FormItem v-else label="对象类型" prop="receive_type">
+                    <Select v-model="form.receive_type" placeholder="请选择对象类型" @on-change='receive_typeChange'>
+                        <Option :label="item.name" :value="item.code" :key="item.code" v-for="item in localData.receive_type"></Option>
+                    </Select>
+                </FormItem>
+                <br/>
                 <FormItem label="类型" prop="type">
                     <Select v-if='form.receive_type && form.receive_type == 4' v-model="form.type" placeholder="请选择推送类型" @on-change='typeChange'>
                         <Option :label="item.name" :value="item.code" :key="item.code" v-for="item in localData.banner" v-if='item.code == 5'></Option>
@@ -27,16 +36,7 @@
                     <Input v-model="form.args34" type="textarea" placeholder="请输入推送内容"></Input>
                 </FormItem>
                 <FormItem v-else-if='form.type == 5' label="推送内容" prop="args5">
-                    <Input v-model="form.args5" type="textarea" placeholder="请输入推送内容"></Input>
-                </FormItem>
-                <br/>
-                <FormItem v-if='receive_type1Bool' label="推送对象">
-                    <Input v-model="receive" type="textarea" placeholder="请输入推送内容"></Input>
-                </FormItem>
-                <FormItem v-else label="对象类型" prop="receive_type">
-                    <Select v-model="form.receive_type" placeholder="请选择对象类型" @on-change='receive_typeChange'>
-                        <Option :label="item.name" :value="item.code" :key="item.code" v-for="item in localData.receive_type"></Option>
-                    </Select>
+                    <Input v-model="form.args5" type="textarea" placeholder="请输入推送内容" :maxlength='100'></Input>
                 </FormItem>
                 <br/>
                 <FormItem v-if='!pid'>
@@ -65,6 +65,7 @@ export default {
             profile: '',
             receive_type: ''
         },
+        selectChangeFlase: true,
         receive: '',
         receive_type1Bool: false,
         pid: '',
@@ -76,9 +77,9 @@ export default {
             args12: [{required: true, message: '请输入推送内容', trigger: 'blur'},
                   {pattern: /^(?=^.{3,255}$)(http(s)?:\/\/)?(www\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:\d+)*(\/\w+\.\w+)*([\?&]\w+=\w*)*$/, message: '请输入一个正确的网址', trigger: 'blur'}],
             args34: [{required: true, message: '请输入推送内容', trigger: 'blur'},
-                  {pattern: /^\d{1, 100}$/, message: '请输入一个正确的id', trigger: 'blur'}],
-            args5: [{required: true, message: '请输入推送内容', trigger: 'blur'},
-                  {pattern: /^\.{1, 100}$/, message: '请输入1-100长度的内容', trigger: 'blur'}],
+                  {pattern: /^\d{1,100}$/, message: '请输入一个正确的id', trigger: 'blur'}],
+            args5: [{required: true, message: '请输入推送内容', trigger: 'blur'}],
+//                  {pattern: /^.{1, 100}$/, message: '请输入1-100长度的内容', trigger: 'blur'}],
             profile: [{required: true, message: '请输入推送简介', trigger: 'blur'}],
             
         },
@@ -131,19 +132,36 @@ export default {
           })
         },
         receive_typeChange () {
-          this.form.type = ''
+          if (this.selectChangeFlase) {
+            this.form.type = ''
+          }
         },
         typeChange () {
           this.form.args = ''
         },
         getPushByPid() {
+          
           this.$axios({type: 'post', url: '/marketing/getPushByPid', data: {data: JSON.stringify({pid: this.pid})}, fuc: (result) => {
-            this.form = result.data;
+            console.log(result)
+            this.selectChangeFlase = false
+            this.form.title = result.data.title;
+            this.form.profile = result.data.profile;
             this.form.receive_type = result.data.receive_type + '';
             if (this.form.receive_type == 1) {
               this.receive_type1Bool = true
               this.receive = result.data.receive
             }
+            if (result.data.type == 1 || result.data.type == 2) {
+              this.form.args12 = result.data.args
+            } else if (result.data.type == 3 || result.data.type == 4) {
+              this.form.args34 = result.data.args
+            } else if (result.data.type == 5) {
+              console.log(123)
+              this.form.args5 = result.data.args
+            }
+            setTimeout(() => {
+              this.selectChangeFlase = true
+            }, 100)
             this.form.type = result.data.type + '';
           }, nowThis: this})
         }

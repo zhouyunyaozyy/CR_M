@@ -100,13 +100,13 @@ export default {
     created () {
       if (this.$route.query.vid) {
         this.vid = this.$route.query.vid
-        this.$axios({type: 'post', url: "/version/getVersionByVid", data: {data: JSON.stringify({vid: this.$route.query.vid})}, fuc: (result) => {
+        this.$axios({type: 'get', url: "/dabai-chaorenjob/version/getVersionByVid", data: {vid: this.$route.query.vid}, fuc: (result) => {
           this.form = result.data 
           this.$refs.upload.fileList.push({name: result.data.urlname, key: result.data.url});
         }, nowThis: this})
       }
       
-      this.$axios({type: 'get', url: "/sys/qiniu/token", fuc: (result) => {
+      this.$axios({type: 'get', url: "/dabai-chaorenjob/common/qiniu/token", fuc: (result) => {
           this.postData = {token: result.data}
       }, nowThis: this})
     },
@@ -128,7 +128,7 @@ export default {
 //                      this.tabsData.status = 'update';
 //                      console.log(result)
 //                  })
-                  this.$axios({type: 'post', url: "/version/addVersion", data: {data: JSON.stringify(this.form)}, fuc: (result) => {
+                  this.$axios({type: 'post', url: "/dabai-chaorenjob/version/addVersion", data: this.form, fuc: (result) => {
                     if (result.code == 1) {
                       this.$Message.success(result.msg)
                       this.$closeAndGoParent('appSystem_Detail', 'appSystem_List')

@@ -41,7 +41,7 @@
                     </Col>
                 </Row>
                 <FormItem v-if="!edit">
-                    <Button type="primary" @click="auditSuccess" v-if="form.status == 1">认证通过</Button>
+                    <Button style='margin-right:60px;' type="primary" @click="auditSuccess" v-if="form.status == 1">认证通过</Button>
                     <Button type="warning" @click="auditFail" v-if="form.status == 1">认证失败</Button>
                 </FormItem>
             </Col>
@@ -59,6 +59,7 @@
         <Input
             type="textarea"
             :rows="2"
+            :maxlength='100'
             placeholder="请输入内容"
             v-model="form.mark">
         </Input>
@@ -140,3 +141,8 @@
     }
   }
 </script>
+<style scoped="true" lang="css">
+  form .ivu-form-item-content>button{
+    padding: 24px 20px;
+  }
+</style>

@@ -49,19 +49,28 @@
         <FormItem label="类型" prop="type">
           <Col span="6">
             <Select v-model="form.type" placeholder="请选择类型">
-                <Option label='无' value="0"></Option>
+                <!--<Option label='无' value="0"></Option>-->
                 <Option label="内链接" value="1"></Option>
                 <Option label="外链接" value="2"></Option>
                 <Option label="职位" value="3"></Option>
                 <Option label="公司" value="4"></Option>
                 <Option label="文本" value="5"></Option>
+                <Option label="资讯" value="6"></Option>
             </Select>
           </Col>
         </FormItem>
         <FormItem label="参数" prop="param">
           <Col span="6">
-            <Input :maxlength='800' type="textarea" v-model="form.param" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入参数"></Input>
+            <Input :maxlength='800' type="textarea" v-model="form.args" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入参数"></Input>
           </Col>
+        </FormItem>
+        <FormItem>
+            <Checkbox v-model="issueBool">定时发布</Checkbox>
+            <DatePicker
+                    v-model="issueTime"
+                    type="datetime"
+                    placeholder="选择日期时间">
+            </DatePicker>
         </FormItem>
     </Form>
     <Button @click="submit">提交</Button>
@@ -73,12 +82,14 @@
       return {
         uploadList: [],
         visible: false,
+        issueTime: '',
+        issueBool: false,
         formatContent: ['jpg','jpeg','png'],
         form: {
             name: '',
             type: '',
             time: '',
-            param: ''
+            args: ''
         },
         rules: {
             name: [
@@ -92,7 +103,7 @@
                 { required: true, message: '请输入时长', trigger: 'blur' },
                 {pattern: /^\d{1}$/, message: '时长为1位正整数', trigger: 'blur'}
              ],
-             param: [
+             args: [
                 { required: true, message: '请输入参数', trigger: 'blur' }
              ]
         },
@@ -102,26 +113,29 @@
       }
     },
     created () {
-      this.$axios({type: 'get', url: "/sys/qiniu/token", fuc: (result) => {
+      this.$axios({type: 'get', url: "/dabai-chaorenjob/common/qiniu/token", fuc: (result) => {
           this.postData = {token: result.data}
       }, nowThis: this})
       if (this.$route.query.lid) {
         this.lid = this.$route.query.lid
         
-        this.$axios({type: 'post', url: '/launchImage/getLaunchImage', data: {data: JSON.stringify({lid: this.lid})}, fuc: (result) => {
+        this.$axios({type: 'get', url: '/dabai-chaorenjob/launchImage/getLaunchImage', data: {lid: this.lid}, fuc: (result) => {
           console.log(result)
-          this.form.name = result.data.name
+          this.form.name = result.data.title
           this.form.time = result.data.time + ''
-          this.form.param = result.data.param
+          this.form.args = result.data.args
           this.form.type = result.data.type + ''
+            if (result.data.issue_time != 0) {
+                this.issueTime = new Date(parseInt(result.data.issue_time))
+                this.issueBool = true
+            }
           this.$nextTick(() => {
-            for (let i in result.data.image.split(',')) {
+            for (let i in result.data.images.split(',')) {
               this.uploadList.push({
-                response: {key: result.data.image.split(',')[i]},
+                response: {key: result.data.images.split(',')[i]},
                 status: 'finished',
-                url: result.data.imageUrl
+                url: result.data.imagesUrl
               })
-              console.log(this.uploadList)
             }
           })
         }, nowThis: this})
@@ -149,7 +163,7 @@
           }
       },
       handleSuccess (res, file) {
-        this.$axios({type: 'get', url: '/sys/qiniu/url/' + res.key, fuc: (result) => {
+        this.$axios({type: 'get', url: '/dabai-chaorenjob/common/qiniu/url/' + res.key, fuc: (result) => {
           this.$set(file, 'url', result.data)
         }, nowThis: this})
       },
@@ -205,18 +219,17 @@
 //                    type: 'success'
 //                })
 //             })
-            this.$axios({type: 'post', url: this.lid ? '/launchImage/editLaunchImage' : '/launchImage/addLaunchImage', data: {data: JSON.stringify({
+            this.$axios({type: 'post', url: this.lid ? '/dabai-chaorenjob/launchImage/updateContent' : '/dabai-chaorenjob/launchImage/insertLaunchImage', data: {
               lid: this.lid ? this.lid : 0,
-              name: this.form.name,
+              title: this.form.name,
               type: this.form.type,
               time: this.form.time,
-              param: this.form.param,
-              image: this.uploadList[0].response.key
-            })}, fuc: (result) => {
-              if (result.code == 1) {
+              issue_time: this.issueBool ? this.issueTime.getTime() : 0,
+              args: this.form.args,
+              images: this.uploadList[0].response.key
+            }, fuc: (result) => {
                 this.$Message.success('提交成功')
                 this.$closeAndGoParent('launchImage_detail', 'launchImage_list')
-              }
             }, nowThis: this})
           }
         })

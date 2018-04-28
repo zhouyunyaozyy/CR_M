@@ -86,7 +86,7 @@ export default {
                               style: {
                                 marginRight: '2px'
                               }
-                            }, '主账号'),
+                            }, '管理员'),
                             h('Button', {
                               props: {
                                 type: 'info',
@@ -100,7 +100,7 @@ export default {
                               style: {
                                 marginRight: '2px'
                               }
-                            }, '子账号'),
+                            }, 'HR账号'),
                             h('Button', {
                               props: {
                                 type: 'info',
@@ -142,7 +142,7 @@ export default {
           console.log(val)
       },
       getTableData() {
-        this.$axios({type: 'post', url: "/company/list", data: {_start: this.$start, _limit: this.$limit}, fuc: (result) => {
+        this.$axios({type: 'post', url: "/dabai-chaorenjob/company/queryAllCompany?_limit=" + this.$limit + '&_start=' + this.$start, data: {}, fuc: (result) => {
             this.tableData = result.data;
         }, nowThis: this})
       },

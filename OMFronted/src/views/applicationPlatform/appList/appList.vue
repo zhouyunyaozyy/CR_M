@@ -3,12 +3,54 @@
     margin-bottom: 15px;
   }
 </style>
+<style lang="css">
+  .searchForm .ivu-form-item-content{
+    display: inline-block;
+  }
+ .searchForm{
+    background-color: darkgrey;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+</style>
 <template>
 <div id="table" class="content">
+    <div class="searchForm">
+      <Form inline :model='formInline'>
+        <FormItem label='用户状态'>
+          <Select v-model="formInline.status" placeholder="用户状态">
+            <Option label='正常' value='1'></Option>
+            <Option label='冻结' value='3'></Option>
+            <Option label='所有' value=' '></Option>
+          </Select>
+        </FormItem>
+        <FormItem label='实名认证'>
+          <Select v-model="formInline.cert" placeholder="实名认证">
+            <Option label='是' value='1'></Option>
+            <Option label='否' value='0'></Option>
+            <Option label='所有' value=' '></Option>
+          </Select>
+        </FormItem>
+        <FormItem label='日期'>
+          <DatePicker v-model='formInline.time' type="daterange" split-panels placeholder="Select date" style="width: 200px"></DatePicker>
+        </FormItem>
+        <FormItem label='查找条件'>
+          <Input placeholder='手机号/姓名' v-model='formInline.name'></Input>
+        </FormItem>
+        <FormItem label=''>
+          <Input placeholder='ID' v-model='formInline.uid' :maxlength='20'></Input>
+        </FormItem>
+        <FormItem>
+          <Button @click='searchSure'>查询</Button>
+        </FormItem>
+      </Form>
+    </div>
     <Button @click="modal1 = true">推送</Button>
+    <Button @click="doSomeThingToApp(1)">冻结</Button>
+    <Button @click="doSomeThingToApp(0)">解冻</Button>
     <div class="table">
         <Table
-                 ref="selection" @on-selection-change='selectionChange' :columns="columns" :data="tableData.data" stripe border
+                 ref="selection" @on-selection-change='selectionChange' :columns="columns" :data="tableData.data" stripe border ellipsis='true'
                 style="width: 100%">
         </Table>
     </div>
@@ -30,7 +72,7 @@
           <Row>
               <Col :span="24">
                   <FormItem label="推送类型" prop="type">
-                      <Select v-model="form.type" placeholder="请选择活动区域">
+                      <Select v-model="form.type" placeholder="请选择推送类型">
                           <Option :label="item.name" :value="item.code" :key="item.code" v-for="item in localData.banner"></Option>
                       </Select>
                   </FormItem>
@@ -38,10 +80,10 @@
                       <Input :maxlength="12" v-model="form.title" placeholder="请输入标题"></Input>
                   </FormItem>
                   <FormItem label="推送简介" prop="profile">
-                      <Input v-model="form.profile" placeholder="请输入推送简介"></Input>
+                      <Input :maxlength="15" v-model="form.profile" placeholder="请输入推送简介"></Input>
                   </FormItem>
                   <FormItem label="推送内容" prop="args">
-                      <Input v-model="form.args" type="textarea" placeholder="请输入参数"></Input>
+                      <Input :maxlength="100" v-model="form.args" type="textarea" placeholder="请输入参数"></Input>
                   </FormItem>
               </Col>
           </Row>
@@ -69,8 +111,17 @@ export default {
               args: '',
               title: '',
               profile: '',
-              receive: ''
+              receive: '',
+              receive_type: '1'
           },
+          formInline: {
+            uid: '',
+            name: '',
+            cert: '',
+            status: '',
+            time: []
+          },
+          formInlineData: {},
           localData: {},
           columns: [
               {
@@ -192,10 +243,63 @@ export default {
       this.localData = JSON.parse(window.sessionStorage.getItem('localData'))
     },
     methods: {
+      searchSure () {
+        this.formInlineData = {}
+        for (let val in this.formInline) {
+          if (val == 'time') {
+            if (this.formInline[val].length > 0 && this.formInline[val][1]) {
+              this.formInlineData.start_time = this.formInline[val][0].getTime()
+              this.formInlineData.end_time = this.formInline[val][1].getTime()
+            }
+          } else if (val == 'uid') {
+            console.log(this.formInline[val].replace(/[^1-9]/g, ''))
+            if (this.formInline[val].replace(/[^1-9]/g, '').length > 0) {
+              this.formInlineData[val] = this.formInline[val] = this.formInline[val].replace(/[^1-9]/g, '')
+            }
+          } else {
+            if (this.formInline[val] && this.formInline[val] !== ' ') {
+              this.formInlineData[val] = this.formInline[val]
+            }
+          }
+        }
+        console.log(this.formInlineData)
+        this.$start = 1
+        this.getTableData()
+      },
+      doSomeThingToApp (num) {
+        if (this.selectedData.length == 0) {
+          this.$Message.error('请先选择用户')
+          return
+        }
+        let title = num == 1 ? '冻结' : '解冻'
+        let name = []
+        let arr = []
+        for (let val of this.selectedData) {
+          arr.push(val.uid)
+          name.push(val.name)
+        }
+        this.$Modal.confirm({
+          title: '提示',
+          content: '确认' + title + ' [' + name.join(',') + '] ' + '吗？',
+          onOk: () => {
+            this.$axios({type: 'post', url: num == 1 ? '/customer/iceUser' : '/customer/unIceUser', data: {data: JSON.stringify({uid: arr.join(',')})}, fuc: (result) => {
+              if (result.code == 1) {
+                this.$Message.success(result.msg)
+                this.getTableData()
+              }
+            }, nowThis: this})
+          }
+        })
+      },
       modalOk () {
         console.log(this.selectedData)
-        if (this.selectedData.length > 0) {
+        if (this.selectedData.length == 0) {
           this.$Message.error('请先选择用户')
+          return
+        }
+        if (!this.form.type || !this.form.title || !this.form.profile || !this.form.args) {
+          this.$Message.error('请先完善推送内容')
+          return
         }
         let _form = JSON.parse(JSON.stringify(this.form))
         let arr = []
@@ -206,6 +310,11 @@ export default {
         this.$axios({type: 'post', url: '/marketing/addPush', data: {data: JSON.stringify(_form)}, fuc: (result) => {
           if (result.code == 1) {
             this.$Message.success(result.msg)
+            this.form.type = ''
+            this.form.args = ''
+            this.form.title = ''
+            this.form.profile = ''
+            this.form.receive = ''
           }
         }, nowThis: this})
       },
@@ -286,7 +395,7 @@ export default {
           
       },
       getTableData() {
-        this.$axios({type: 'post', url: "/customer/queryAllUser", data: {_start: this.$start, _limit: this.$limit}, fuc: (result) => {
+        this.$axios({type: 'post', url: "/customer/queryAllUser", data: {_start: this.$start, _limit: this.$limit, data: JSON.stringify(this.formInlineData)}, fuc: (result) => {
           console.log(result)
               this.tableData = result.data;
         }, nowThis: this})

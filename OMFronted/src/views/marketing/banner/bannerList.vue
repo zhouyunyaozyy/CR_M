@@ -159,19 +159,16 @@ export default {
           console.log('submit!');
       },
       activateBanner(val) {
-          this.$axios({type: 'post', url: "/marketing/activateBanner", data: {data: JSON.stringify({bid: val.bid})}, fuc: (result) => {
-              if (result.code == 1) {
-                this.$Message.success(result.msg)
-                this.getTableData()
-              }
+          this.$axios({type: 'post', url: "/dabai-chaorenjob/banner/updateBannerStatusIssue", data: {bid: val.bid}, fuc: (result) => {
+            this.$Message.success(result.msg)
+            this.getTableData()
           }, nowThis: this})
       },
       disableBanner(val) {
-          this.$axios({type: 'post', url: "/marketing/disableBanner", data: {data: JSON.stringify({bid: val.bid})}, fuc: (result) => {
-              if (result.code == 1) {
-                this.$Message.success(result.msg)
-                this.getTableData()
-              }
+          this.$axios({type: 'post', url: "/dabai-chaorenjob/banner/updateBannerStatusNotIssue", data: {bid: val.bid}, fuc: (result) => {
+            this.$Message.success(result.msg)
+            this.getTableData()
+
           }, nowThis: this})
       },
       editBanner(val) {
@@ -185,7 +182,7 @@ export default {
           console.log(val)
       },
       getTableData() {
-        this.$axios({type: 'post', url: "/marketing/queryBannerList", data: {_start: this.$start, _limit: this.$limit, data: JSON.stringify(this.searchForm)}, fuc: (result) => {
+        this.$axios({type: 'get', url: "/dabai-chaorenjob/banner/getAllBanner", data: {_start: this.$start, _limit: this.$limit}, fuc: (result) => {
             this.tableData = result.data;
         }, nowThis: this})
       },

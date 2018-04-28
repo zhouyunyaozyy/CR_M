@@ -2,7 +2,19 @@
 </style>
 <template>
 <div id="table" class="content">
-    <Button @click="addText('')">添加文章</Button>
+    <div class="searchForm">
+      <Form inline :model='formInline'>
+        <FormItem label='日期'>
+          <DatePicker v-model='formInline.time' type="daterange" split-panels placeholder="Select date" style="width: 200px"></DatePicker>
+        </FormItem>
+        <FormItem label='名称'>
+          <Input placeholder='关键字' v-model='formInline.keyword'></Input>
+        </FormItem>
+        <FormItem>
+          <Button @click='searchSure'>查询</Button>
+        </FormItem>
+      </Form>
+    </div>
     <div class="table">
       <Table
                 :columns="columns" :data="tableData.data" stripe border
@@ -34,29 +46,30 @@
           },
           {
               title: '名称',
-              key: 'name'
+              key: 'title'
           },
           {
               title: '参数',
-              key: 'param'
+              key: 'args',
+              ellipsis: true
           },
           {
               title: '发布时间',
               key: 'create_time',
               render: (h, params) => {
-                return h('span', {}, new Date(params.row.create_time).toLocaleString('chinese',{hour12:false}))
+                return h('span', {}, new Date(parseInt(params.row.create_time)).toLocaleString('chinese',{hour12:false}))
               }
           },
           {
               title: '最近修改',
-              key: 'update_time',
+              key: 'modify_time',
               render: (h, params) => {
-                return h('span', {}, new Date(params.row.update_time).toLocaleString('chinese',{hour12:false}))
+                return h('span', {}, new Date(parseInt(params.row.modify_time)).toLocaleString('chinese',{hour12:false}))
               }
           },
           {
               title: '操作人员',
-              key: 'update_name'
+              key: 'modify_name'
           },
           {
               title: '发布状态',
@@ -105,6 +118,11 @@
               }
           }
         ],
+        formInline: {
+          keyword: '',
+          time: []
+        },
+        formInlineData: {},
         tableData: {}
       }
     },
@@ -112,6 +130,24 @@
       this.getTableData()
     },
     methods: {
+      searchSure () {
+        this.formInlineData = {}
+        for (let val in this.formInline) {
+          if (val == 'time') {
+            if (this.formInline[val].length > 0 && this.formInline[val][1]) {
+              this.formInlineData.startTime = this.formInline[val][0].getTime()
+              this.formInlineData.endTime = this.formInline[val][1].getTime()
+            }
+          } else {
+            if (this.formInline[val] && this.formInline[val] !== ' ') {
+              this.formInlineData[val] = this.formInline[val]
+            }
+          }
+        }
+        console.log(this.formInlineData)
+        this.$start = 1
+        this.getTableData()
+      },
       goDetail (data) {
         console.log(data)
         this.$router.push({
@@ -120,19 +156,19 @@
         })
       },
       openLaunchImage (data) {
-        this.$axios({type: 'post', url: "/launchImage/startLaunchImage", data: {_start: this.$start, _limit: this.$limit, data: JSON.stringify({lid: data.lid})}, fuc: (result) => {
+        this.$axios({type: 'post', url: "/dabai-chaorenjob/launchImage/updateStatusIssue?_start=" + this.$start + "&_limit=" + this.$limit, data: {lid: data.lid}, fuc: (result) => {
             this.getTableData()
             this.$Message.success('开启成功')
         }, nowThis: this})
       },
       closeLaunchImage (data) {
-        this.$axios({type: 'post', url: "/launchImage/endLaunchImage", data: {_start: this.$start, _limit: this.$limit, data: JSON.stringify({lid: data.lid})}, fuc: (result) => {
+        this.$axios({type: 'post', url: "/dabai-chaorenjob/launchImage/updateStatusNotIssue?_start=" + this.$start + "&_limit=" + this.$limit, data: {lid: data.lid}, fuc: (result) => {
             this.getTableData()
             this.$Message.success('关闭成功')
         }, nowThis: this})
       },
       getTableData() {
-        this.$axios({type: 'post', url: "/launchImage/queryLaunchImage", data: {_start: this.$start, _limit: this.$limit}, fuc: (result) => {
+        this.$axios({type: 'get', url: "/dabai-chaorenjob/launchImage/getAllLaunchImage", data: {_start: this.$start, _limit: this.$limit}, fuc: (result) => {
             this.tableData = result.data;
           console.log(result)
         }, nowThis: this})

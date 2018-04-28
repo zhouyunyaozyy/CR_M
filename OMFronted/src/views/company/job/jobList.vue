@@ -1,33 +1,19 @@
 <template>
 <div id="table" class="content">
-    <div class="form">
-        <div>
-            <span>条件查询</span>
-            <Button type="primary" size="small">清空</Button>
-            <Button type="primary" size="small">查询</Button>
-        </div>
-        <Form :inline="true" :model="formInline" class="demo-form-inline">
-            <FormItem label="审批人">
-                <Input v-model="formInline.user" placeholder="审批人"></Input>
-            </FormItem>
-            <FormItem label="活动区域">
-                <Select v-model="formInline.region" placeholder="活动区域">
-                    <Option label="区域一" value="shanghai"></Option>
-                    <Option label="区域二" value="beijing"></Option>
+    <div class="searchForm">
+        <Form inline :model='formInline'>
+            <FormItem label='日期'>
+                <Select v-model='formInline.status'>
+                    <Option value='0'>未查看</Option>
+                    <Option value='1'>已查看</Option>
+                    <Option value=' '>所有</Option>
                 </Select>
             </FormItem>
-            <FormItem label="审批人">
-                <Input v-model="formInline.user" placeholder="审批人"></Input>
-            </FormItem>
-            <FormItem label="活动区域">
-                <Select v-model="formInline.region" placeholder="活动区域">
-                    <Option label="区域一" value="shanghai"></Option>
-                    <Option label="区域二" value="beijing"></Option>
-                </Select>
+            <FormItem>
+                <Button @click='searchSure'>查询</Button>
             </FormItem>
         </Form>
     </div>
-
     <div class="table">
         <div>
             <span>用户列表</span>
@@ -50,6 +36,17 @@
 
 </div>
 </template>
+<style>
+
+    .searchForm .ivu-form-item-content{
+        display: inline-block;
+    }
+    .searchForm{
+        background-color: darkgrey;
+        margin-bottom: 10px;
+        padding: 10px;
+    }
+</style>
 <script>
   export default {
     name: 'appSystem',
@@ -140,8 +137,10 @@
                 key: 'status',
                 render: (h, params) => {
                   let name = '已发布'
-                  if (params.row.status == 0) {
-                    name = '未发布'
+                  if (params.row.status == 2) {
+                    name = '待发布'
+                  } else if (params.row.status == 3) {
+                    name = '招聘结束'
                   }
                   return h('span', {}, name)
                 }
@@ -149,8 +148,7 @@
         ],
         cid: '',
         formInline: {
-            user: '',
-            region: ''
+          status: ''
         },
         tableData: {},
         localData: {}

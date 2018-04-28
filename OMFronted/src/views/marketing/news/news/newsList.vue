@@ -1,19 +1,31 @@
-<style lang="less">
+<style lang="css">
+  .searchForm .ivu-form-item-content{
+    display: inline-block;
+  }
+ .searchForm{
+    background-color: darkgrey;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
 </style>
 <template>
 <div id="table" class="content">
-    <Button @click="addText('')">添加文章</Button>
-    <Form :inline="true" :model="formInline">
-        <FormItem label="">
-            <Input v-model="formInline.user" placeholder="标题"></Input>
+    <div class="searchForm">
+      <Form inline :model='formInline'>
+        <FormItem label='日期'>
+          <DatePicker v-model='formInline.time' type="daterange" split-panels placeholder="Select date" style="width: 200px"></DatePicker>
         </FormItem>
-        <FormItem label="">
-            <DatePicker type="datetimerange" placeholder="选择日期" v-model="formInline.date1" style="width: 100%;"></DatePicker>
+        <FormItem label='标题'>
+          <Input placeholder='关键字' v-model='formInline.title'></Input>
         </FormItem>
         <FormItem>
-            <Button type="primary" @click="onSubmit">查找</Button>
+          <Button @click='searchSure'>查询</Button>
         </FormItem>
-    </Form>
+      </Form>
+    </div>
+  
+    <Button @click="addText('')">添加文章</Button>
+  
     <div class="table">
       <Table
                 :columns="columns" :data="tableData.data" stripe border
@@ -46,6 +58,10 @@ export default {
                   width: 80
               },
               {
+                  title: 'id',
+                  key: 'nid'
+              },
+              {
                   title: '标题',
                   key: 'title'
               },
@@ -53,14 +69,14 @@ export default {
                   title: '发布时间',
                   key: 'issue_time',
                   render: (h, params) => {
-                    return h('span', {}, new Date(params.row.issue_time).toLocaleString('chinese',{hour12:false}))
+                    return h('span', {}, new Date(parseInt(params.row.create_time)).toLocaleString('chinese',{hour12:false}))
                   }
               },
               {
                   title: '最近修改',
                   key: 'update_time',
                   render: (h, params) => {
-                    return h('span', {}, new Date(params.row.update_time).toLocaleString('chinese',{hour12:false}))
+                    return h('span', {}, new Date(parseInt(params.row.modify_time)).toLocaleString('chinese',{hour12:false}))
                   }
               },
               {
@@ -146,10 +162,10 @@ export default {
               }
           ],
           formInline: {
-              user: '',
-              date1: '',
-              date2: ''
+            title: '',
+            time: []
           },
+          formInlineData: {},
           dialogVisible: false,
           tableData: {},
           localData: {},
@@ -164,14 +180,29 @@ export default {
       this.getTableData();
     },
     methods: {
+      searchSure () {
+        this.formInlineData = {}
+        for (let val in this.formInline) {
+          if (val == 'time') {
+            if (this.formInline[val].length > 0 && this.formInline[val][1]) {
+              this.formInlineData.start_time = this.formInline[val][0].getTime()
+              this.formInlineData.end_time = this.formInline[val][1].getTime()
+            }
+          } else {
+            if (this.formInline[val] && this.formInline[val] !== ' ') {
+              this.formInlineData[val] = this.formInline[val]
+            }
+          }
+        }
+        console.log(this.formInlineData)
+        this.$start = 1
+        this.getTableData()
+      },
       issueTitle (val) {
-        this.$axios({type: 'post', url: "/news/issueNews", data: {data: JSON.stringify({nid: val.nid})}, fuc: (result) => {
+        this.$axios({type: 'post', url: "/dabai-chaorenjob/news/issueNews", data: {nid: val.nid}, fuc: (result) => {
           this.$Message.success('发布成功')
           this.getTableData()
         }, nowThis: this})
-      },
-      onSubmit () {
-          console.log('onsubmit')
       },
       addText (nid = '') {
         console.log(nid)
@@ -181,27 +212,22 @@ export default {
         })
       },
       getTableData() {
-        this.$axios({type: 'post', url: "/news/queryNews", data: {_start: this.$start, _limit: this.$limit, data: JSON.stringify({theme: this.ntid})}, fuc: (result) => {
+        let form = this.formInlineData
+        form.theme = this.ntid
+        this.$axios({type: 'get', url: "/dabai-chaorenjob/news/queryNews?_start=" + this.$start + '&_limit=' + this.$limit, data: form, fuc: (result) => {
             this.tableData = result.data;
             console.log(result)
             this.$start = result.data.start
         }, nowThis: this})
       },
       removeTheme (val) {
-          console.log(val)
-          this.$Modal.confirm({
-            title: '提示',
-            content: '确认删除[' + val.title + ']文章',
-            onOk: () => {
-              if (this.tableData.count > 1 && this.tableData.count % this.tableData.pageSize == 1) {
-                this.$start-- 
-              }
-              this.$axios({type: 'post', url: "/news/deleteNews", data: {data: JSON.stringify({nid: val.nid})}, fuc: (result) => {
-                this.$Message.success('删除成功')
-                this.getTableData()
-              }, nowThis: this})
-            }
-          })
+          if (this.tableData.count > 1 && this.tableData.count % this.tableData.pageSize == 1) {
+            this.$start--
+          }
+          this.$axios({type: 'post', url: "/dabai-chaorenjob/news/deleteNews", data: {nid: val.nid}, fuc: (result) => {
+            this.$Message.success('删除成功')
+            this.getTableData()
+          }, nowThis: this})
       },
       handleCurrentChange (val) {
         this.$handleCurrentChange(val, this.getTableData, this)

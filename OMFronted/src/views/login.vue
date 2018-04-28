@@ -45,7 +45,7 @@ export default {
     data () {
         return {
             form: {
-                userName: 'root',
+                userName: '13888888888',
                 password: '123456'
             },
             rules: {
@@ -115,7 +115,7 @@ export default {
                     data.client = 'Safari';
                     data.clientVersion = ver
                 }
-                window.localStorage.setItem('platform', 'chaorenjob-root');
+                window.localStorage.setItem('platform', 'DABAI_CHAORENJOB_M_WEB');
                 // 判断本地是否有clintUid
                 if (window.localStorage.getItem('clientUid')) {
                     data.clientUid = window.localStorage.getItem('clientUid')
@@ -136,8 +136,8 @@ export default {
                   
                   
                 data.platform = window.localStorage.getItem('platform');
-                data.loginName = this.form.userName;
-                data.passWord = this.form.password;
+                data.username = this.form.userName;
+                data.password = this.form.password;
                 let resultData = {};
                 // aes加密
                 resultData.content = (function () {
@@ -156,30 +156,34 @@ export default {
                 let publicKey = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCdIIlQzv3fb9ktUGphZ/4l0qQ87iMxLjn1Rc3yhWL0KlnTSY/tziRi0XRyoSCBovZe1hhWGXnfwSvgJRvkzBWRHrnGor0+6I18DnY1lnrckp6bmjirX0BvdqFWxmXgIoz985YjLnPGNqBzt58EBdC5YqUYYnATRgKMA4g0N0Cd6QIDAQAB'; // 从服务端接收到的公钥，缓存到本地
                 encrypt.setPublicKey(publicKey);
                 resultData.aesKey = encrypt.encrypt(beforeKey);// RSAkey
-                this.$axios({type: 'post', url: '/loginSys', data: {data: JSON.stringify(resultData)}, fuc: (res) => {
-                  if (res.code === 1) {
+                this.$axios({type: 'post', url: '/dabai-authority/authority/login', data: resultData, fuc: (res) => {
+                  console.log('res', res)
+                  if (res.code == 1) {
                     let key = CryptoJS.enc.Utf8.parse(beforeKey)
                     let iv = CryptoJS.enc.Utf8.parse('16-Bytes--String')
-                    var decrypted = CryptoJS.AES.decrypt(res.data.sessionSalt, key,
+                    var decrypted = CryptoJS.AES.decrypt(res.data, key,
                       {
                         iv: iv,
                         mode: CryptoJS.mode.CBC,
                         padding: CryptoJS.pad.Pkcs7
                       })
-                    Cookies.set('sessionSalt', decrypted.toString(CryptoJS.enc.Utf8));
-                    
                     Cookies.set('user', this.form.userName);
                     Cookies.set('password', this.form.password);
-                    Cookies.set('sessionId', res.data.sessionId);
-                    this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
-                    if (this.form.userName === 'iview_admin') {
-                        Cookies.set('access', 0);
-                    } else {
-                        Cookies.set('access', 1);
-                    }
-                    this.$router.push({
-                        name: 'home_index'
-                    });
+                    Cookies.set('tickets', decrypted.toString(CryptoJS.enc.Utf8).split('.')[0]);
+                    Cookies.set('ticketsSalt', decrypted.toString(CryptoJS.enc.Utf8).split('.')[1]);
+
+                    this.$axios({type: 'post', url: '/dabai-chaorenjob/userSystem/getUserInfoByTickets', data: {}, fuc: (res2) => {
+                      console.log('res2', res2)
+                        this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
+                        if (this.form.userName === 'iview_admin') {
+                          Cookies.set('access', 0);
+                        } else {
+                          Cookies.set('access', 1);
+                        }
+                        this.$router.push({
+                          name: 'home_index'
+                        });
+                    }, nowThis: this})
                   }
                 }, nowThis: this})
               }

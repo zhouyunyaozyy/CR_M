@@ -60,6 +60,9 @@ module.exports = {
                     use: ['css-loader?minimize','autoprefixer-loader', 'less-loader'],
                     fallback: 'style-loader'
                 }),
+            },{
+                test: /\.sass$/,
+                loaders: ['style', 'css', 'sass']
             },
             {
                 test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,

@@ -2,30 +2,31 @@
 <div id="table" class="content">
     <div class="form">
         <div>
-            <span>条件查询</span>
-            <Button type="primary" size="small">清空</Button>
-            <Button type="primary" size="small">查询</Button>
+            <!--<span>条件查询</span>-->
+            <!--<Button type="primary" size="small">清空</Button>-->
+            <!--<Button type="primary" size="small">查询</Button>-->
+            <Button type="primary" size="small" @click="addchildren">新增HR账号</Button>
         </div>
-        <Form :inline="true" :model="formInline" class="demo-form-inline">
-            <FormItem label="审批人">
-                <Input v-model="formInline.user" placeholder="审批人"></Input>
-            </FormItem>
-            <FormItem label="活动区域">
-                <Select v-model="formInline.region" placeholder="活动区域">
-                    <Option label="区域一" value="shanghai"></Option>
-                    <Option label="区域二" value="beijing"></Option>
-                </Select>
-            </FormItem>
-            <FormItem label="审批人">
-                <Input v-model="formInline.user" placeholder="审批人"></Input>
-            </FormItem>
-            <FormItem label="活动区域">
-                <Select v-model="formInline.region" placeholder="活动区域">
-                    <Option label="区域一" value="shanghai"></Option>
-                    <Option label="区域二" value="beijing"></Option>
-                </Select>
-            </FormItem>
-        </Form>
+        <!--<Form :inline="true" :model="formInline" class="demo-form-inline">-->
+            <!--<FormItem label="审批人">-->
+                <!--&lt;!&ndash;<Input v-model="formInline.user" placeholder="审批人"></Input>&ndash;&gt;-->
+            <!--</FormItem>-->
+            <!--<FormItem label="活动区域">-->
+                <!--&lt;!&ndash;<Select v-model="formInline.region" placeholder="活动区域">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<Option label="区域一" value="shanghai"></Option>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<Option label="区域二" value="beijing"></Option>&ndash;&gt;-->
+                <!--&lt;!&ndash;</Select>&ndash;&gt;-->
+            <!--</FormItem>-->
+            <!--<FormItem label="审批人">-->
+                <!--&lt;!&ndash;<Input v-model="formInline.user" placeholder="审批人"></Input>&ndash;&gt;-->
+            <!--</FormItem>-->
+            <!--<FormItem label="活动区域">-->
+                <!--&lt;!&ndash;<Select v-model="formInline.region" placeholder="活动区域">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<Option label="区域一" value="shanghai"></Option>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<Option label="区域二" value="beijing"></Option>&ndash;&gt;-->
+                <!--&lt;!&ndash;</Select>&ndash;&gt;-->
+            <!--</FormItem>-->
+        <!--</Form>-->
     </div>
 
     <div class="table">
@@ -55,29 +56,29 @@
     data () {
       return {
         columns: [
+          {
+            title: '姓名',
+            key: 'name'
+          },
             {
                 title: '手机号',
                 key: 'mobile'
-            },
-            {
-                title: '企业名称',
-                key: 'name_full'
             },
             {
                 title: '用户名',
                 key: 'username'
             },
             {
-                title: '姓名',
-                key: 'name'
-            },
-            {
-                title: '角色',
-                key: 'role'
-            },
-            {
                 title: '状态',
-                key: 'status'
+                key: 'status',
+                render: (h, params) => {
+                  for (let val of this.localData.status) {
+                    if (val.code == params.row.status) {
+                      return h('span', {}, val.name)
+                    }
+                  }
+
+                }
             },
             {
                 title: '创建时间',
@@ -143,7 +144,18 @@
                             this.deleteChildren(params.row)
                           }
                         }
-                      }, '删除')
+                      }, '删除'),
+                      h('Button', {
+                        props: {
+                          type: 'error',
+                          size: 'small'
+                        },
+                        on: {
+                          click: () => {
+                            this.editChildren(params.row)
+                          }
+                        }
+                      }, '编辑')
                     ])
                   } else if (params.row.status != 4) {
                     return h('div', [
@@ -168,37 +180,51 @@
             user: '',
             region: ''
         },
-        tableData: {}
+        tableData: {},
+        localData: {}
       }
     },
     created () {
       this.cid = this.$route.query.cid
       this.getTableData();
+      this.localData = JSON.parse(window.sessionStorage.getItem('localData'))
     },
     methods: {
-      freezing(val) {
-        this.$Modal.confirm({
-          title: '提示',
-          content: '确定绕过主帐号权限，直接冻结当前子账号？',
-          onOk: () =>{
-            this.$axios({type: 'post', url: "/company/freezingChildren", data: {data: JSON.stringify({uid: val.uid})}, fuc: (result) => {
-              this.$Message.success(result.msg)
-              this.getTableData()
-            }, nowThis: this})
-          }
+      editChildren () {
+        this.$router.push({
+          name: 'children_detail',
+          query: {cid: this.cid}
         })
       },
-      defrosting(val) {
-        this.$Modal.confirm({
-          title: '提示',
-          content: '确定绕过主帐号权限，直接解冻当前子账号？',
-          onOk: () =>{
-            this.$axios({type: 'post', url: "/company/defrostingChildren", data: {data: JSON.stringify({uid: val.uid})}, fuc: (result) => {
+      addchildren () {
+        this.$router.push({
+          name: 'children_detail',
+          query: {cid: this.cid}
+        })
+      },
+      freezing(val) {
+        // this.$Modal.confirm({
+        //   title: '提示',
+        //   content: '确定绕过主帐号权限，直接冻结当前子账号？',
+        //   onOk: () =>{
+            this.$axios({type: 'post', url: "/dabai-chaorenjob/company/freezingChildren", data: {uid: val.uid}, fuc: (result) => {
               this.$Message.success(result.msg)
               this.getTableData()
             }, nowThis: this})
-          }
-        })
+        //   }
+        // })
+      },
+      defrosting(val) {
+        // this.$Modal.confirm({
+        //   title: '提示',
+        //   content: '确定绕过主帐号权限，直接解冻当前子账号？',
+        //   onOk: () =>{
+            this.$axios({type: 'post', url: "/dabai-chaorenjob/company/defrostingChildren", data: {uid: val.uid}, fuc: (result) => {
+              this.$Message.success(result.msg)
+              this.getTableData()
+            }, nowThis: this})
+        //   }
+        // })
       },
       deleteChildren(val) {
 //          this.initModal({title: "提示", profile: "确定绕过主帐号权限，直接删除当前子账号？"}, () => {
@@ -209,19 +235,20 @@
 //                  val.mobile = val.uid;
 //              })
 //          })
-        this.$Modal.confirm({
-          title: '提示',
-          content: '确定绕过主帐号权限，直接删除当前子账号？',
-          onOk: () =>{
-            this.$axios({type: 'post', url: "/company/deleteChildren", data: {data: JSON.stringify({uid: val.uid})}, fuc: (result) => {
+//         this.$Modal.confirm({
+//           title: '提示',
+//           content: '确定绕过主帐号权限，直接删除当前子账号？',
+//           onOk: () =>{
+            this.$axios({type: 'post', url: "/dabai-chaorenjob/company/deleteChildren", data: {uid: val.uid}, fuc: (result) => {
               this.$Message.success(result.msg)
+              this.$start = 1
               this.getTableData()
             }, nowThis: this})
-          }
-        })
+        //   }
+        // })
       },
       getTableData() {
-        this.$axios({type: 'post', url: "/company/getChildrenListByCid", data: {_start: this.$start, _limit: this.$limit, data: JSON.stringify({cid: this.cid})}, fuc: (result) => {
+        this.$axios({type: 'get', url: "/dabai-chaorenjob/company/queryAllChildrenByCid?_limit=" + this.$limit + '&_start=' + this.$start, data: {cid: this.cid}, fuc: (result) => {
           this.tableData = result.data
         }, nowThis: this})
       },

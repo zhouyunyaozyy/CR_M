@@ -1,17 +1,35 @@
 <template>
   <div id='recruitDetail' class="detail">
+      <div>{{appRecruitResult}}</div>
+      <div>{{appRecruitResult}}</div>
+      <div>{{appRecruitResult}}</div>
     <div class="recruitDetailHead">
       <div>
         <p><label>ID:</label>{{pageData.uid}}</p>
-        <p><label>姓名:</label>{{pageData.name}}</p>
+        <p><label>姓名:</label>{{pageData.modify_name}}</p>
         <p><label>手机号:</label>{{pageData.tel}}</p>
-        <p><label>提交时间:</label>{{new Date(create_time).toLocaleString('chinese',{hour12:false})}}</p>
+        <p><label>提交时间:</label>{{new Date(parseInt(pageData.modify_time)).toLocaleString('chinese',{hour12:false})}}</p>
+
       </div>
-      <Button @click='goTrue(2)'>通过</Button>
-      <Button @click='goTrue(3)'>拒绝</Button>
+      <Button @click='goTrue(2)' type="primary">通过</Button>
+      <Button @click='goTrue(3)' type="warning">拒绝</Button>
       <div>
         <span>拒绝理由：</span>
-        <Input type='textarea' placeholder='必填' :maxlength='200' v-model='note'></Input>
+          <br/>
+          <Radio v-model="refuseDataBool" @on-change="radioChange"></Radio>
+          <Select v-model="refuseData1" :disabled="!refuseDataBool" placeholder="请选择" style="width: 200px;margin-bottom: 10px;">
+              <Option value="身份证不清晰">身份证不清晰</Option>
+              <Option value="证件类型有误">证件类型有误</Option>
+              <Option value="无关图片">无关图片</Option>
+              <Option value="违规图片">违规图片</Option>
+              <Option value="视频不清晰">视频不清晰</Option>
+              <Option value="无关视频">无关视频</Option>
+              <Option value="违规视频">违规视频</Option>
+          </Select>
+          <br/>
+
+          <Radio v-model="refuseDataBool2" @on-change="radioChange2"></Radio>
+          <Input style="width: 200px" :disabled="!refuseDataBool2" placeholder="最多200个字符" :maxlength="200" type="textarea" v-model="refuseData2" :autosize="{minRows: 2,maxRows: 5}"></input>
       </div>
     </div>
     
@@ -19,21 +37,28 @@
     <div class="showImage">
       <div>
         <p>标准照</p>
-        <img :src='pageData.headerUrl' @click='goImg(pageData.headerUrl)'>
+        <img v-if='pageData.headerUrl' :src='pageData.headerUrl' @click='goImg(pageData.headerUrl)'>
+        <span v-else>(暂无)</span>
       </div>
       <div>
         <p>图片形象</p>
         <img v-for='item in pageData.imagesUrl' :src='item' @click='goImg(item)'>
+        <span v-if='pageData.imagesUrl && pageData.imagesUrl.length < 1'>(暂无)</span>
       </div>
     </div>
     <div class="showImage">
       <div>
         <p>视频形象</p>
-        <video :src='pageData.videoUrl' controls></video>
+        <video v-if='pageData.videoUrl' :src='pageData.videoUrl' controls></video>
+        <span v-else>(暂无)</span>
       </div>
       <div>
         <p>证书</p>
-        <img v-for='item in pageData.skills' :src='item.skillUrl' @click='goImg(item.skillUrl)'>
+        <div v-for='item in pageData.skills'>
+          <img :src='item.skillUrl' @click='goImg(item.skillUrl)'>
+          <p>{{item.name}}</p>
+        </div>
+        <span v-if='pageData.skills && pageData.skills.length < 1'>(暂无)</span>
       </div>
     </div>
     <hr style="margin:0px;height:1px;border:0px;background-color:#D5D5D5;"/>
@@ -42,7 +67,7 @@
                 <h3>基本信息</h3>
                 <div>
                     <div>
-                        <p><span>姓&nbsp;&nbsp;名：</span>{{pageData.name}}</p>
+                        <p><span>姓&nbsp;&nbsp;名：</span>{{pageData.modify_name}}</p>
                         <p v-for='item in localData.gender' v-if='item.code == pageData.gender'><span>性&nbsp;&nbsp;别：</span>{{item.name}}</p>
                         <p><span>年&nbsp;&nbsp;龄：</span>{{pageData.age}}</p>
                         <p v-for='item in localData.ethnicity' v-if='item.code == pageData.ethnicity'><span>民&nbsp;&nbsp;族：</span>{{item.name}}</p>
@@ -177,13 +202,18 @@
   export default {
     data () {
       return {
+        appRecruitResult: '',
         rcnidArr: [], // 职能
-        rid: '',
+        rasid: '',
         create_time: '',
         localData: {},
         dialogVisible: false,
         dialogImageUrl: '',
         pageData: {},
+        refuseDataBool: true,
+        refuseDataBool2: false,
+        refuseData1: '',
+        refuseData2: '',
         note: '',
         "vision":[
           {"code":"1","name":"0.1"},
@@ -204,42 +234,67 @@
       }
     },
     created () {
-      this.$axios({type: 'get', url: "/resumecustom/queryCustomName", data: {}, fuc: (result) => {
+      this.$axios({type: 'get', url: "/dabai-chaorenjob/resumeTarget/getActiveResumeTarget", data: {}, fuc: (result) => {
         this.rcnidArr = result.data
       }, nowThis: this})
-      this.rid = this.$route.query.rid
+      this.rasid = this.$route.query.rasid
       this.create_time = this.$route.query.create_time
       this.localData = JSON.parse(window.sessionStorage.getItem('localData'))
-      this.$axios({type: 'post', url: "/children/getResumeByRid", data: {data: JSON.stringify({rid: this.rid})}, fuc: (res) => {
+      this.$axios({type: 'get', url: "/dabai-chaorenjob/resumeAuditSnapshot/querySingle", data: {rasid: this.rasid}, fuc: (res) => {
+        console.log(res.data)
         this.pageData = res.data
 //        this.pageData.language = this.pageData.language.split(',')
       }, nowThis: this})
     },
     methods: {
+      radioChange2 () {
+        this.refuseDataBool = false
+      },
+      radioChange () {
+        this.refuseDataBool2 = false
+      },
       goImg (src) {
         this.dialogVisible = true
         this.dialogImageUrl = src
       },
       goTrue (num) {
-        let _form = {}
-        _form.rid = this.rid
-        _form.status = num
-        if (num == 3) {
-          console.log(this.note)
-          _form.note = this.note
-        }
-        this.$axios({type: 'post', url: "/resume/changeResumeAudit", data: {data: JSON.stringify(_form)}, fuc: (res) => {
-          console.log(res)
-          this.$axios({type: 'post', url: "/resume/getNextResumeAudit", data: {}, fuc: (result) => {
-            this.rid = result.data.rid
-            this.create_time = result.data.create_time
-            this.$axios({type: 'post', url: "/children/getResumeByRid", data: {data: JSON.stringify({rid: this.rid})}, fuc: (resNow) => {
-              this.pageData = resNow.data
-              this.note = ''
-      //        this.pageData.language = this.pageData.language.split(',')
+        this.$Modal.confirm({
+          content: '点击确定，立即推送到app',
+          title: '提示',
+          onCancel: () => {
+            console.log('cancle')
+          },
+          onOk: () => {
+            let _form = {}
+            _form.rasid = this.rasid
+            let url =  '/dabai-chaorenjob/resumeAuditSnapshot/markSuccess'
+            if (num == 3) {
+              url = '/dabai-chaorenjob/resumeAuditSnapshot/markFail'
+              if (this.refuseDataBool) {
+                _form.audit_mark = this.refuseData1
+              } else {
+                _form.audit_mark = this.refuseData2
+              }
+              if (_form.audit_mark) {
+              } else {
+                this.$Message.warning('请填写拒绝理由！')
+                return
+              }
+            }
+            this.$axios({type: 'post', url: url, data: _form, fuc: (res) => {
+              console.log(res)
+          //     this.$axios({type: 'post', url: "/resume/getNextResumeAudit", data: {}, fuc: (result) => {
+          //       this.rid = result.data.rid
+          //       this.create_time = result.data.create_time
+          //       this.$axios({type: 'post', url: "/children/getResumeByRid", data: {data: JSON.stringify({rid: this.rid})}, fuc: (resNow) => {
+          //         this.pageData = resNow.data
+          //         this.note = ''
+          // //        this.pageData.language = this.pageData.language.split(',')
+          //       }, nowThis: this})
+          //     }, nowThis: this})
             }, nowThis: this})
-          }, nowThis: this})
-        }, nowThis: this})
+          }
+        })
       }
     }
   }
@@ -402,6 +457,15 @@
     .containBodyDetailRight>div:nth-of-type(2) p>span:last-child{
         float: right;
     }
+  .containBodyDetailRight>div:nth-of-type(2){
+    padding: 0;
+  }
+    .containBodyDetailRight>div:nth-of-type(2)>div{
+        width: 100%;
+        overflow: hidden;
+        border-bottom: 1px solid #e9ebf2;
+        padding: 24px;
+    }
     .containBodyDetailRight>div:nth-of-type(3){
         padding: 0;
     }
@@ -466,7 +530,7 @@
     margin-right: 100px;
   }
   .showImage>div:first-child>img{
-    width: 200px;
+    width: 100px;
     height: 100px;
     display: inline-block;
     margin-top: 10px;
@@ -476,12 +540,28 @@
     height: 100px;
     display: inline-block;
     margin-top: 10px;
+    padding-right: 10px;
   }
   .showImage>div>video{
     width: 100%;
     height: 100px;
     display: inline-block;
     margin-top: 10px;
+  }
+  .showImage>div>div{
+    width: 100px;
+    overflow: hidden;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .showImage>div>div>img{
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+  }
+  .showImage>div>div>p{
+    text-align: center;
+    width: 100%;
   }
   .showImage>div:last-child{
     width: 600px;

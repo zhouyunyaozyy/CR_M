@@ -178,16 +178,7 @@
             },
             checkLocalData () {
               this.$getLocalData((val) => {
-                this.$axios({type: 'get', url: '/common/configJson', fuc: (res) => {
-                  if (res.code == 1) {
-                    this.localData = res.data
-                    let form = res.data
-                    form.area = val.area
-                    console.log(1, res.data)
-                    window.sessionStorage.setItem('localData', JSON.stringify(form))
-                  }
-    //                if (window.sessionStorage.getItem('localData'))
-                }, nowThis: this})
+                window.sessionStorage.setItem('localData', JSON.stringify(val))
               })
             }
         },

@@ -140,22 +140,27 @@ export default {
             ])
           },
           onOk: () => {
-            if (!this.form.name || !this.form.sort || isNaN(Number(this.form.sort)) || this.form.sort.indexOf(',') > -1) {
+            if (isNaN(Number(this.form.sort))) {
               this.$Notice.warning({
                 title: '错误',
                 desc: '错误输入信息,请重新添加'
-            });
+              });
               return false
             }
-            let url = this.form.ntid === 0 ? '/news/addNewsTheme' : '/news/updateNewTheme'
-            this.$axios({type: 'post', url: url, data: {data: JSON.stringify(this.form)}, fuc: (result) => {
-              if (result.code == 1) {
+            if (!this.form.name || !this.form.sort) {
+              this.$Notice.warning({
+                title: '错误',
+                desc: '输入信息不能为空'
+              });
+              return false
+            }
+            
+            let url = this.form.ntid === 0 ? '/dabai-chaorenjob/news/addNewsTheme' : '/dabai-chaorenjob/news/updateNewTheme'
+            this.$axios({type: 'post', url: url, data: this.form, fuc: (result) => {
                 this.form.name = ''
                 this.form.sort = ''
                 this.form.ntid = 0
                 this.getTableData()
-                this.$Message.success(result.msg)
-              }
 //              this.$Modal.remove();
             }, nowThis: this})
           },
@@ -168,7 +173,7 @@ export default {
           
       },
       getTableData() {
-        this.$axios({type: 'post', url: "/news/queryNewsTheme", data: {_start: this.$start, _limit: this.$limit}, fuc: (result) => {
+        this.$axios({type: 'get', url: "/dabai-chaorenjob/news/queryNewsTheme", data: {_start: this.$start, _limit: this.$limit}, fuc: (result) => {
               this.tableData = result.data;
         }, nowThis: this})
       },
@@ -179,19 +184,14 @@ export default {
           this.addTheme()
       },
       removeTheme (val) {
-        this.$Modal.confirm({
-          title: '提示',
-          content: '确认删除[' + val.name + ']栏目(栏目内的文章将同步删除)',
-          onOk: () => {
-            if (this.tableData.count > 1 && this.tableData.count % this.tableData.pageSize == 1) {
-              this.$start-- 
-            }
-            this.$axios({type: 'post', url: "/news/deleteNewsTheme", data: {data: JSON.stringify({ntid: val.ntid})}, fuc: (result) => {
-              this.$Message.success('删除成功')
-              this.getTableData()
-            }, nowThis: this})
-          }
-        })
+        if (this.tableData.count > 1 && this.tableData.count % this.tableData.pageSize == 1) {
+          this.$start--
+        }
+
+        this.$axios({type: 'post', url: "/dabai-chaorenjob/news/deleteNewsTheme", data: {ntid: val.ntid}, fuc: (result) => {
+          this.$Message.success('删除成功')
+          this.getTableData()
+        }, nowThis: this})
       },
       goDetail (val) {
         this.$router.push({

@@ -118,6 +118,9 @@
                 <FormItem label="企业地址" prop="address">
                     <Input v-model="form.address" placeholder="请输入企业地址"></Input>
                 </FormItem>
+                <FormItem label="联系方式" prop="tel">
+                    <Input v-model="form.tel" placeholder="请输入联系方式"></Input>
+                </FormItem>
                 <FormItem label="企业官网" prop="website">
                     <Input v-model="form.website">
                         <template slot="prepend">Http://</template>
@@ -172,22 +175,27 @@ export default {
               character: '',
               fleet_size: '',
               base_address_arr: [],
-              profile: ''
+              profile: '',
+              tel: ''
           },
           cid: '',
           logoUrl: '',
           rules: {
               name_full: [{required: true, message: '请输入全称', trigger: 'blur'},
-                  {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}],
+                  {min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur'}],
               name_short: [{required: true, message: '请输入简称', trigger: 'blur'},
-                  {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}],
+                  {min: 4, max: 8, message: '长度在 4 到 8 个字符', trigger: 'blur'}],
               address: [{required: true, message: '请输入地址', trigger: 'blur'},
-                  {min: 0, max: 200, message: '长度在 0 到 200 个字符', trigger: 'blur'}],
-              website: [{required: true, message: '请输入网址', trigger: 'blur'},],
+                  {min: 6, max: 40, message: '长度在 6 到 40 个字符', trigger: 'blur'}],
+            tel: [{required: true, message: '请输入联系方式', trigger: 'blur'},
+                  {min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur'}],
+              website: [{required: true, message: '请输入网址', trigger: 'blur'},
+                {min: 6, max: 40, message: '长度在 6 到 40 个字符', trigger: 'blur'}],
               character: [{required: true, message: '请选择性质', trigger: 'change'}],
               fleet_size: [{required: true, message: '请选择规模', trigger: 'change'}],
               base_address_arr: [{type: 'array', required: true, message: '请选择主营基地', trigger: 'change'}],
-              profile: [{required: true, message: '请输入简介', trigger: 'blur'}]
+              profile: [{required: true, message: '请输入简介', trigger: 'blur'},
+                {min: 20, max: 800, message: '长度在 20 到 800 个字符', trigger: 'blur'}]
           },
           imagesUrl: [],
           dialogImages: '',
@@ -207,11 +215,10 @@ export default {
         if (this.$route.query.cid) {
           this.cid = this.$route.query.cid
         }
-        this.$axios({type: 'get', url: "/sys/qiniu/token", fuc: (result) => {
+        this.$axios({type: 'get', url: "/dabai-chaorenjob/common/qiniu/token", fuc: (result) => {
             this.postData = {token: result.data}
         }, nowThis: this})
         this.localData = JSON.parse(window.sessionStorage.getItem('localData'))
-        console.log(this.localData)
         let area = []
         for (var i of this.localData.area) {
             if (i.children) {
@@ -235,35 +242,36 @@ export default {
         this.localData.area = area
         
         if (this.cid) {
-          this.$axios({type: 'post', url: "/company/getCompanyByCid", data: {data: JSON.stringify({cid: this.cid})}, fuc: (result) => {
+          this.$axios({type: 'get', url: "/dabai-chaorenjob/company/getCompanyAndManagerByCid", data: {cid: this.cid}, fuc: (result) => {
             console.log(1, result)
 //            this.form = result.data;
             this.$nextTick(() => {
-              for (let i in result.data.logo.split(',')) {
+              for (let i in result.data.company.logo.split(',')) {
                 this.uploadList.push({
-                  response: {key: result.data.logo.split(',')[i]},
+                  response: {key: result.data.company.logo.split(',')[i]},
                   status: 'finished',
-                  url: result.data.logoUrl
+                  url: result.data.company.logoUrl
                 })
               }
-              for (let i in result.data.images.split(',')) {
+              for (let i in result.data.company.images.split(',')) {
                 this.uploadListContent.push({
-                  response: {key: result.data.images.split(',')[i]},
+                  response: {key: result.data.company.images.split(',')[i]},
                   status: 'finished',
-                  url: result.data.imagesUrl[i]
+                  url: result.data.company.imagesUrl[i]
                 })
               }
             })
-            var first = result.data.base_address + "";
+            var first = result.data.company.base_address + "";
             this.form.base_address_arr.push(first.substr(0, 2) + "0000");
-            this.form.base_address_arr.push(result.data.base_address);
-            this.form.character = result.data.character + '';
-            this.form.fleet_size = result.data.fleet_size + '';
-            this.form.name_full = result.data.name_full;
-            this.form.name_short = result.data.name_short;
-            this.form.address = result.data.address;
-            this.form.website = result.data.website;
-            this.form.profile = result.data.profile;
+            this.form.base_address_arr.push(result.data.company.base_address);
+            this.form.character = result.data.company.character + '';
+            this.form.fleet_size = result.data.company.fleet_size + '';
+            this.form.name_full = result.data.company.name_full;
+            this.form.name_short = result.data.company.name_short;
+            this.form.address = result.data.company.address;
+            this.form.tel = result.data.company.tel;
+            this.form.website = result.data.company.website;
+            this.form.profile = result.data.company.profile;
           }, nowThis: this})
         }
     },
@@ -311,7 +319,7 @@ export default {
           }
       },
       handleSuccess (res, file) {
-        this.$axios({type: 'get', url: '/sys/qiniu/url/' + res.key, fuc: (result) => {
+        this.$axios({type: 'get', url: '/dabai-chaorenjob/common/qiniu/url/' + res.key, fuc: (result) => {
           this.$set(file, 'url', result.data)
         }, nowThis: this})
       },
@@ -342,14 +350,13 @@ export default {
                 if (this.form.base_address_arr.length !== 0) {
                     this.form.base_address = this.form.base_address_arr[this.form.base_address_arr.length - 1];
                 }
-//                  this.sure(() => {
                 let images = []
                 for (let val of this.uploadListContent) {
                   images.push(val.response.key)
                 }
                 this.form.images = images.join(',');
                 this.form.logo = this.uploadList[0].response.key;
-                this.$axios({type: 'post', url: '/company/addCompany', data: {data: JSON.stringify(this.form)}, fuc: (result) => {
+                this.$axios({type: 'post', url: '/dabai-chaorenjob/company/addCompany', data: this.form, fuc: (result) => {
                   if (result.code == 1) {
                     this.$Message.success(result.msg)
                     this.$closeAndGoParent('company_Detail', 'company_list')
@@ -374,11 +381,9 @@ export default {
               }
               this.form.images = images.join(',');
               this.form.logo = this.uploadList[0].response.key;
-              this.$axios({type: 'post', url: '/company/updateCompany', data: {data: JSON.stringify(this.form)}, fuc: (result) => {
-                if (result.code == 1) {
+              this.$axios({type: 'post', url: '/dabai-chaorenjob/company/updateCompany', data: this.form, fuc: (result) => {
                   this.$Message.success(result.msg)
                   this.$closeAndGoParent('company_Detail', 'company_list')
-                }
               }, nowThis: this})
 //                  });
             }

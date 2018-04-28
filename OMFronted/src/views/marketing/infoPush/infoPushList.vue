@@ -1,30 +1,42 @@
-<style lang="less">
+<style lang="css">
+  .searchForm .ivu-form-item-content{
+    display: inline-block;
+  }
+ .searchForm{
+    background-color: darkgrey;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
 </style>
 <template>
 <div id="table" class="content">
-    <div class="form">
-        <div>
-            <span>条件查询</span>
-            <Button type="primary" size="small" @click="clear">清空</Button>
-            <Button type="primary" size="small" @click="search">查询</Button>
-        </div>
-        <Form :inline="true" :model="searchForm" class="demo-form-inline">
-            <FormItem label="标题">
-                <Input v-model="searchForm.title" placeholder="标题"></Input>
-            </FormItem>
-            <FormItem label="类型">
-                <Select v-model="searchForm.type" placeholder="推送类型">
-                    <Option :label="item.name" :key="item.code" :value="item.code" v-for="item in localData.banner"></Option>
-                </Select>
-            </FormItem>
-            <FormItem label="接收类型">
-                <Select v-model="searchForm.receive_type" placeholder="接收类型">
-                    <Option :value="item.code" :key="item.code" v-for="item in localData.receive_type">{{item.name}}</Option>
-                </Select>
-            </FormItem>
-        </Form>
-    </div>
 
+    <div class="searchForm">
+      <Form inline :model='formInline'>
+        <FormItem label='推送类型'>
+          <Select v-model="formInline.type" placeholder="推送类型">
+            <Option :label="item.name" :key="item.code" :value="item.code" v-for="item in localData.banner"></Option>
+            <Option label='所有' value=' '></Option>
+          </Select>
+        </FormItem>
+        <FormItem label='接收对象'>
+          <Select v-model="formInline.receive_type" placeholder="接收对象">
+            <Option :label="item.name" :key="item.code" :value="item.code" v-for="item in localData.receive_type"></Option>
+            <Option label='特定用户' value='1'></Option>
+            <Option label='所有' value=' '></Option>
+          </Select>
+        </FormItem>
+        <FormItem label='日期'>
+          <DatePicker v-model='formInline.time' type="daterange" split-panels placeholder="Select date" style="width: 200px"></DatePicker>
+        </FormItem>
+        <FormItem label='标题'>
+          <Input placeholder='请输入标题' v-model='formInline.title'></Input>
+        </FormItem>
+        <FormItem>
+          <Button @click='searchSure'>查询</Button>
+        </FormItem>
+      </Form>
+    </div>
     <div class="table">
         <div>
             <span>用户列表</span>
@@ -51,6 +63,13 @@ export default {
     name: 'appSystem',
     data () {
         return {
+          formInline: {
+            type: '',
+            receive_type: '',
+            title: '',
+            time: []
+          },
+          formInlineData: {},
           columns: [
               {
                   title: '类型',
@@ -116,7 +135,6 @@ export default {
                   }
               }
           ],
-          searchForm: {},
           currentPage: 1, // 当前页
           pageSize: 10, //每页条数
           total: 400, // 总数目
@@ -133,12 +151,23 @@ export default {
     watch: {
     },
     methods: {
-        search() {
-            this.getTableData();
-        },
-        clear() {
-            this.searchForm = {};
-            this.getTableData();
+        searchSure () {
+          this.formInlineData = {}
+          for (let val in this.formInline) {
+            if (val == 'time') {
+              if (this.formInline[val].length > 0 && this.formInline[val][1]) {
+                this.formInlineData.start_time = this.formInline[val][0].getTime()
+                this.formInlineData.end_time = this.formInline[val][1].getTime()
+              }
+            } else {
+              if (this.formInline[val] && this.formInline[val] !== ' ') {
+                this.formInlineData[val] = this.formInline[val]
+              }
+            }
+          }
+          console.log(this.formInlineData)
+          this.$start = 1
+          this.getTableData()
         },
         detail(data) {
           console.log(data)
@@ -151,7 +180,7 @@ export default {
             console.log(val)
         },
         getTableData() {
-          this.$axios({type: 'post', url: "/marketing/pushList", data: {_start: this.$start, _limit: this.$limit, data: JSON.stringify(this.searchForm)}, fuc: (result) => {
+          this.$axios({type: 'post', url: "/marketing/pushList", data: {_start: this.$start, _limit: this.$limit, data: JSON.stringify(this.formInlineData)}, fuc: (result) => {
               this.tableData = result.data;
           }, nowThis: this})
         },
