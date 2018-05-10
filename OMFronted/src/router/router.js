@@ -74,27 +74,27 @@ export const otherRouter = {
 
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter = [
-//    {
-//        path: '/access',
-//        icon: 'key',
-//        name: 'access',
-//        title: '权限管理',
-//        component: Main,
-//        children: [
-//            { path: 'index', title: '权限管理', name: 'access_index', component: resolve => { require(['@/views/access/access.vue'], resolve); } }
-//        ]
-//    },
-//    {
-//        path: '/access-test',
-//        icon: 'lock-combination',
-//        title: '权限测试页',
-//        name: 'accesstest',
-//        access: 0,
-//        component: Main,
-//        children: [
-//            { path: 'index', title: '权限测试页', name: 'accesstest_index', access: 0, component: resolve => { require(['@/views/access/access-test.vue'], resolve); } }
-//        ]
-//    },
+   // {
+   //     path: '/access',
+   //     icon: 'key',
+   //     name: 'access',
+   //     title: '权限管理',
+   //     component: Main,
+   //     children: [
+   //         { path: 'index', title: '权限管理', name: 'access_index', component: resolve => { require(['@/views/access/access.vue'], resolve); } }
+   //     ]
+   // },
+   // {
+   //     path: '/access-test',
+   //     icon: 'lock-combination',
+   //     title: '权限测试页',
+   //     name: 'accesstest',
+   //     access: 0,
+   //     component: Main,
+   //     children: [
+   //         { path: 'index', title: '权限测试页', name: 'accesstest_index', access: 0, component: resolve => { require(['@/views/access/access-test.vue'], resolve); } }
+   //     ]
+   // },
 //    {
 //        path: '/international',
 //        icon: 'earth',
@@ -170,18 +170,18 @@ export const appRouter = [
 //            // }
 //        ]
 //    },
-    {
-        path: '/form',
-        icon: 'android-checkbox',
-        name: 'form',
-        title: '表单编辑',
-        component: Main,
-        children: [
-            { path: 'artical-publish', title: '文章发布', name: 'artical-publish', icon: 'compose', component: resolve => { require(['@/views/form/article-publish/article-publish.vue'], resolve); } },
-            { path: 'workflow', title: '工作流', name: 'workflow', icon: 'arrow-swap', component: resolve => { require(['@/views/form/work-flow/work-flow.vue'], resolve); } }
-
-        ]
-    },
+//     {
+//         path: '/form',
+//         icon: 'android-checkbox',
+//         name: 'form',
+//         title: '表单编辑',
+//         component: Main,
+//         children: [
+//             { path: 'artical-publish', title: '文章发布', name: 'artical-publish', icon: 'compose', component: resolve => { require(['@/views/form/article-publish/article-publish.vue'], resolve); } },
+//             { path: 'workflow', title: '工作流', name: 'workflow', icon: 'arrow-swap', component: resolve => { require(['@/views/form/work-flow/work-flow.vue'], resolve); } }
+//
+//         ]
+//     },
 //    // {
 //    //     path: '/charts',
 //    //     icon: 'ios-analytics',
@@ -219,16 +219,16 @@ export const appRouter = [
 //            { path: 'argument-page', title: '带参页面', name: 'argument-page', icon: 'android-send', component: resolve => { require(['@/views/advanced-router/argument-page.vue'], resolve); } }
 //        ]
 //    },
-    {
-        path: '/error-page',
-        icon: 'android-sad',
-        title: '错误页面',
-        name: 'errorpage',
-        component: Main,
-        children: [
-            { path: 'index', title: '错误页面', name: 'errorpage_index', component: resolve => { require(['@/views/error-page/error-page.vue'], resolve); } }
-        ]
-    },
+//     {
+//         path: '/error-page',
+//         icon: 'android-sad',
+//         title: '错误页面',
+//         name: 'errorpage',
+//         component: Main,
+//         children: [
+//             { path: 'index', title: '错误页面', name: 'errorpage_index', component: resolve => { require(['@/views/error-page/error-page.vue'], resolve); } }
+//         ]
+//     },
 
 //    {
 //        path: '/access',
@@ -245,6 +245,7 @@ export const appRouter = [
         icon: 'key',
         name: 'appSystem',
         title: '版本管理',
+        access: [0,1],
         component: Main,
         children: [
           { path: 'appSystem_List', title: '历史版本', name: 'appSystem_List', component: resolve => { require(['@/views/system/appSystem/appSystemList.vue'], resolve); } },
@@ -256,6 +257,7 @@ export const appRouter = [
         icon: 'key',
         name: 'systemInforms',
         title: '消息通知',
+        access: [0,1,4,5,6],
         component: Main,
         children: [
           { path: 'systemInforms_List', title: '消息通知列表', name: 'systemInforms_List', component: resolve => { require(['@/views/marketing/systemInforms/systemInformsList.vue'], resolve); } },
@@ -278,6 +280,7 @@ export const appRouter = [
         icon: 'key',
         name: 'banner',
         title: 'Banner管理',
+        access: [0,1,2,4,5,6],
         component: Main,
         children: [
           { path: 'banner_List', title: 'banner列表', name: 'banner_List', component: resolve => { require(['@/views/marketing/banner/bannerList.vue'], resolve); } },
@@ -290,6 +293,7 @@ export const appRouter = [
         name: 'theme',
         title: '资讯管理',
         component: Main,
+        access: [0,1,2,4,5,6],
         children: [
           { path: 'theme_List', title: '栏目列表', name: 'theme_List', component: resolve => { require(['@/views/marketing/news/themeList.vue'], resolve); } }
         ]
@@ -299,6 +303,7 @@ export const appRouter = [
         icon: 'key',
         name: 'companyControl',
         title: '企业平台',
+        access: [0,1,2,3,6],
         component: Main,
         children: [
           { path: 'company_list', title: '企业列表', name: 'company_list', component: resolve => { require(['@/views/company/companyControl/companyList.vue'], resolve); } },
@@ -310,6 +315,7 @@ export const appRouter = [
         icon: 'key',
         name: 'applicationPlatform',
         title: '审核管理',
+        access: [0,1,2,3,4,5,6],
         component: Main,
         children: [
           { path: 'auditManagement_list', title: '实名审核列表', name: 'auditManagement_list', component: resolve => { require(['@/views/applicationPlatform/auditManagement/auditManagementList.vue'], resolve); } },
@@ -321,6 +327,7 @@ export const appRouter = [
         icon: 'key',
         name: 'launchImage',
         title: '开屏页管理',
+        access: [0,1,5,6],
         component: Main,
         children: [
           { path: 'launchImage_list', title: '开屏页列表', name: 'launchImage_list', component: resolve => { require(['@/views/marketing/launchImage/launchImageList.vue'], resolve); } },
@@ -332,6 +339,7 @@ export const appRouter = [
         icon: 'key',
         name: 'competency',
         title: '职能管理',
+        access: [0,1],
         component: Main,
         children: [
           { path: 'competency_list', title: '职能列表', name: 'competency_list', component: resolve => { require(['@/views/marketing/competency/competencyList.vue'], resolve); } },
@@ -342,7 +350,8 @@ export const appRouter = [
         path: '/appList',
         icon: 'key',
         name: 'appList',
-        title: 'ca用户列表',
+        title: '用户管理',
+        access: [0,1,3,6],
         component: Main,
         children: [
           { path: 'app_list', title: 'ca用户列表', name: 'app_list', component: resolve => { require(['@/views/applicationPlatform/appList/appList.vue'], resolve); } }
@@ -352,11 +361,36 @@ export const appRouter = [
         path: '/feedbackList',
         icon: 'key',
         name: 'feedbackList',
-        title: '反馈',
+        title: '反馈管理',
+        access: [0,1,2,3,4,5,6],
         component: Main,
         children: [
           { path: 'hrFeedback_list', title: 'hr反馈', name: 'hrFeedback_list', component: resolve => { require(['@/views/feedback/hrFeedback.vue'], resolve); } },
           { path: 'appFeedback_list', title: 'app反馈', name: 'appFeedback_list', component: resolve => { require(['@/views/feedback/appFeedback.vue'], resolve); } }
+        ]
+    },
+    {
+        path: '/omUser',
+        icon: 'key',
+        name: 'omUser',
+        title: '账号管理',
+        access: [0],
+        component: Main,
+        children: [
+          { path: 'user_list', title: '账号列表', name: 'user_list', component: resolve => { require(['@/views/om-user/userList.vue'], resolve); } },
+          { path: 'user_detail', title: '新增/编辑账号', name: 'user_detail', component: resolve => { require(['@/views/om-user/userDetail.vue'], resolve); } }
+        ]
+    },
+    {
+        path: '/statistics',
+        icon: 'key',
+        name: 'statistics',
+        title: '数据统计',
+        access: [0],
+        component: Main,
+        children: [
+          { path: 'userStatistics', title: '用户数据日报', name: 'userStatistics', component: resolve => { require(['@/views/statistics/userStatistics.vue'], resolve); } },
+          // { path: 'user_detail', title: '新增/编辑账号', name: 'user_detail', component: resolve => { require(['@/views/om-user/userDetail.vue'], resolve); } }
         ]
     }
 ];

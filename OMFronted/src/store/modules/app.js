@@ -38,11 +38,14 @@ const app = {
             state.tagsList.push(...list);
         },
         updateMenulist (state) {
-            let accessCode = parseInt(Cookies.get('access'));
+            // 只改了一级目录权限，后续需完善
+            let accessCode = Cookies.get('access') ? JSON.parse(Cookies.get('access')) : [];
             let menuList = [];
             appRouter.forEach((item, index) => {
                 if (item.access !== undefined) {
+                    // console.log('true')
                     if (Util.showThisRoute(item.access, accessCode)) {
+                        // console.log('item', item)
                         if (item.children.length === 1) {
                             menuList.push(item);
                         } else {
@@ -58,6 +61,7 @@ const app = {
                                 }
                             });
                             menuList[len - 1].children = childrenArr;
+                            // console.log('menuList', menuList)
                         }
                     }
                 } else {

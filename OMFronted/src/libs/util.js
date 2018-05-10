@@ -33,15 +33,25 @@ util.inOf = function (arr, targetArr) {
 };
 
 util.oneOf = function (ele, targetArr) {
-    if (targetArr.indexOf(ele) >= 0) {
+    for (let val of ele) {
+        // console.log(val, targetArr.indexOf(val))
+      if (targetArr.indexOf(val) >= 0) {
+          // console.log('index')
         return true;
-    } else {
-        return false;
+      }
     }
+    // console.log('index2')
+    return false;
+    // if (targetArr.indexOf(ele) >= 0) {
+    //     return true;
+    // } else {
+    //     return false;
+    // }
 };
 
 util.showThisRoute = function (itAccess, currentAccess) {
     if (typeof itAccess === 'object' && Array.isArray(itAccess)) {
+        // console.log('currentAccess', currentAccess, itAccess)
         return util.oneOf(currentAccess, itAccess);
     } else {
         return itAccess === currentAccess;

@@ -116,7 +116,18 @@
                             this.deleteChildren(params.row)
                           }
                         }
-                      }, '删除')
+                      }, '删除'),
+                      h('Button', {
+                        props: {
+                          type: 'error',
+                          size: 'small'
+                        },
+                        on: {
+                          click: () => {
+                            this.editChildren(params.row)
+                          }
+                        }
+                      }, '编辑')
                     ])
                   } else if (params.row.status == 3) {
                     return h('div', [
@@ -169,7 +180,18 @@
                             this.deleteChildren(params.row)
                           }
                         }
-                      }, '删除')
+                      }, '删除'),
+                      h('Button', {
+                        props: {
+                          type: 'error',
+                          size: 'small'
+                        },
+                        on: {
+                          click: () => {
+                            this.editChildren(params.row)
+                          }
+                        }
+                      }, '编辑')
                     ])
                   }
                 }
@@ -190,10 +212,10 @@
       this.localData = JSON.parse(window.sessionStorage.getItem('localData'))
     },
     methods: {
-      editChildren () {
+      editChildren (val) {
         this.$router.push({
           name: 'children_detail',
-          query: {cid: this.cid}
+          query: {cid: this.cid, uid: val.uid}
         })
       },
       addchildren () {

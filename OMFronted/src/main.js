@@ -181,7 +181,7 @@ Vue.prototype.$getLocalData = function (fuc) {
 //   }
 // }
 Vue.prototype.$axios = function (params) {
-  console.log('params', params)
+  // console.log('params', params)
   // cr-token 算法
   let resultData = 0
   if(Cookies.get('ticketsSalt')){
@@ -225,7 +225,7 @@ Vue.prototype.$axios = function (params) {
 //
   let baseUrl = global.configSelf.api
   if (params.type === 'get') {
-    console.log(1, params.data)
+    // console.log(1, params.data)
     axios.get(baseUrl + params.url, {params: params.data, withCredentials:false, headers: {"Content-Type": "application/json", "Accept" : "*/*", 'CR-token': resultData}})
       .then(function(response){
         if (response.data.code != 1) {

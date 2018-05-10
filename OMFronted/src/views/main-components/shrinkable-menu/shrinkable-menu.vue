@@ -45,7 +45,7 @@ export default {
             type: String,
             default: 'dark',
             validator (val) {
-                return util.oneOf(val, ['dark', 'light']);
+              return ['dark', 'light'].indexOf('dark') > -1
             }
         },
         beforePush: {

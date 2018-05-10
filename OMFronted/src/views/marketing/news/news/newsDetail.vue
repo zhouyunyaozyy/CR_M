@@ -555,15 +555,15 @@
     watch: {
       content: () => {
         let detailId = document.getElementById('detailId')
-        var editableList = Sortable.create(detailId, {
-          filter: '.js-remove',
-          onFilter: function (evt) {
-            console.log(evt)
-            var el = editableList.closest(evt.item); // get dragged item
-            el && el.parentNode.removeChild(el);
-            this.content.splice(evt.oldIndex, 1)
-          }
-        });
+        // var editableList = Sortable.create(detailId, {
+        //   filter: '.js-remove',
+        //   onFilter: function (evt) {
+        //     console.log(evt)
+        //     var el = editableList.closest(evt.item); // get dragged item
+        //     el && el.parentNode.removeChild(el);
+        //     this.content.splice(evt.oldIndex, 1)
+        //   }
+        // });
       }
     },
     mounted () {
@@ -576,10 +576,12 @@
       this.nid = this.$route.query.nid
       this.ntid = this.$route.query.ntid
       if (this.nid) {
-        this.$axios({type: 'post', url: '/news/getNewsByNid', data: {data: JSON.stringify({nid: this.nid})}, fuc: (result) => {
+        this.$axios({type: 'get', url: '/dabai-chaorenjob/news/getNewsByNid', data: {nid: this.nid}, fuc: (result) => {
             console.log(result)
-            this.content = JSON.parse(result.data.content)
+            this.editContent = JSON.parse(result.data.content)
             this.form.profile = result.data.profile
+            this.form.initial_reading = result.data.initial_reading
+            this.form.link = result.data.link
             this.form.title = result.data.title
             this.form.type = result.data.type + ''
             this.$nextTick(() => {
@@ -967,9 +969,9 @@
             let url = '/dabai-chaorenjob/news/addNews'
             if (this.nid) {
               if (this.issueBool) {
-                url = '/news/updateNewsReIssue'
+                url = '/dabai-chaorenjob/news/updateNewsReIssue'
               }else {
-                url = '/news/updateNewsOnlySave'
+                url = '/dabai-chaorenjob/news/updateNewsOnlySave'
               }
             } else {
               if (this.issueBool) {

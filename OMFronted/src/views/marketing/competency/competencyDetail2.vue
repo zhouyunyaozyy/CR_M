@@ -1,28 +1,30 @@
 <template>
-    <Form ref="form" :model="form" :rules="rules" :label-width=80>
-        <FormItem prop="name" label="职能名称">
-            <Input v-model="form.name" placeholder="请输入职能名称" :maxlength="100"></Input>
-        </FormItem>
-        <FormItem prop="profile" label="职能介绍">
-            <Input type="text" v-model="form.profile" placeholder="请输入介绍" :maxlength="100"></Input>
-        </FormItem>
-        <FormItem label="职能配置">
-            <Poptip placement="bottom-start" width="400">
-                <Button type="ghost">选择</Button>
-                <div class="api" slot="content">
-                    <Checkbox v-for="item in configJson" v-model="item.status" :key="item.code" :label="item.code" :disabled="item.disabledBool">{{item.name}}</Checkbox>
-                </div>
-            </Poptip>
-            <!--<Select>-->
-                <!--<Option v-for="item in configJson" value="item.name">-->
-                    <!--<Checkbox v-model="item.status" :disabled="item.disabledBool">{{item.name}}</Checkbox>-->
-                <!--</Option>-->
-            <!--</Select>-->
-        </FormItem>
-        <FormItem>
-            <Button @click="handleSubmit" type="primary" :disabled="status == 1">确定</Button>
-        </FormItem>
-    </Form>
+    <div class="competencyDetail2">
+        <Form ref="form" :model="form" :rules="rules" :label-width=80>
+            <FormItem prop="name" label="职能名称">
+                <Input v-model="form.name" placeholder="请输入职能名称" :maxlength="100"></Input>
+            </FormItem>
+            <FormItem prop="profile" label="职能介绍">
+                <Input type="text" v-model="form.profile" placeholder="请输入介绍" :maxlength="100"></Input>
+            </FormItem>
+            <FormItem label="职能配置">
+                <Poptip placement="bottom-start" width="400">
+                    <Button type="ghost">选择</Button>
+                    <div class="api" slot="content">
+                        <Checkbox v-for="item in configJson" v-model="item.status" :key="item.code" :label="item.code" :disabled="item.disabledBool">{{item.name}}</Checkbox>
+                    </div>
+                </Poptip>
+                <!--<Select>-->
+                    <!--<Option v-for="item in configJson" value="item.name">-->
+                        <!--<Checkbox v-model="item.status" :disabled="item.disabledBool">{{item.name}}</Checkbox>-->
+                    <!--</Option>-->
+                <!--</Select>-->
+            </FormItem>
+            <FormItem>
+                <Button @click="handleSubmit" type="primary" :disabled="status == 1">确定</Button>
+            </FormItem>
+        </Form>
+    </div>
 </template>
 
 <script>
@@ -57,8 +59,8 @@
           {disabledBool: true, status: true, code: 'vision_left', name: '左眼视力'},
           {disabledBool: true, status: true, code: 'vision_right', name: '右眼视力'},
           {disabledBool: true, status: true, code: 'profile', name: '自我描述'},
-          {disabledBool: true, status: true, code: 'skill', name: '证书'},
-          {disabledBool: true, status: true, code: 'experience_item', name: '工作经历'}
+          {disabledBool: true, status: false, code: 'skill', name: '证书'},
+          {disabledBool: true, status: false, code: 'experience_item', name: '工作经历'}
         ],
         rules: {
           name: [{required: true, message: '请输入名称', trigger: 'blur'}],
@@ -106,7 +108,10 @@
     }
 </style>
 <style>
-    form .ivu-checkbox-wrapper{
+    .competencyDetail2 form .ivu-checkbox-wrapper{
         display: block;
+    }
+    .competencyDetail2 .ivu-poptip-popper {
+        top: 33px !important;
     }
 </style>

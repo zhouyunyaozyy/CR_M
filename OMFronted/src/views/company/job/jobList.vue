@@ -162,7 +162,7 @@
     },
     methods: {
       getTableData() {
-        this.$axios({type: 'post', url: "/company/getJobListOfCid", data: {_start: this.$start, _limit: this.$limit, data: JSON.stringify({cid: this.cid})}, fuc: (result) => {
+        this.$axios({type: 'get', url: "/dabai-chaorenjob/job/queryAllJobListByCid", data: {_start: this.$start, _limit: this.$limit, cid: this.cid}, fuc: (result) => {
           this.tableData = result.data
         }, nowThis: this})
       },

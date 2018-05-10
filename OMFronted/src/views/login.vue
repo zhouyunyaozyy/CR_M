@@ -45,8 +45,8 @@ export default {
     data () {
         return {
             form: {
-                userName: '13888888888',
-                password: '123456'
+                userName: '',
+                password: ''
             },
             rules: {
                 userName: [
@@ -175,11 +175,12 @@ export default {
                     this.$axios({type: 'post', url: '/dabai-chaorenjob/userSystem/getUserInfoByTickets', data: {}, fuc: (res2) => {
                       console.log('res2', res2)
                         this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
-                        if (this.form.userName === 'iview_admin') {
-                          Cookies.set('access', 0);
-                        } else {
-                          Cookies.set('access', 1);
+                        let arr = []
+                        for (let val of res2.data.roleList) {
+                          arr.push(Number(val.rid))
                         }
+                        console.log(arr)
+                        Cookies.set('access', JSON.stringify(arr));
                         this.$router.push({
                           name: 'home_index'
                         });

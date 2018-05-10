@@ -16,9 +16,10 @@
                     </FormItem>
                     <br/>
                     <FormItem label="消息类型" prop="type">
-                        <Select v-if='form.receive_type && form.receive_type == 4' v-model="form.type" placeholder="请选择消息类型" @on-change='typeChange'>
+                        <Select v-if='form.receive && form.receive == 2' v-model="form.type" placeholder="请选择消息类型" @on-change='typeChange'>
                             <Option :label="item.name" :value="item.code" :key="item.code" v-for="item in localData.banner" v-if='item.code == 5'></Option>
                         </Select>
+
                         <Select v-else v-model="form.type" placeholder="请选择消息类型">
                             <Option :label="item.name+item.code" :value="item.code" :key="item.code" v-for="item in localData.banner"></Option>
                         </Select>

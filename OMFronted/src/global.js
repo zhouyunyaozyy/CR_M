@@ -13,6 +13,6 @@ let zhengshi = {
   api: 'http://api.chaorenjob.com'
 }
 
-// module.exports.configSelf = tiaoshi // 调试
-module.exports.configSelf = ceshi // 测试
+module.exports.configSelf = tiaoshi // 调试
+// module.exports.configSelf = ceshi // 测试
 // module.exports.configSelf = zhengshi // 正式
