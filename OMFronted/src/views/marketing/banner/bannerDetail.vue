@@ -97,7 +97,7 @@
                 <br/>
                 <br/>
                 <FormItem>
-                    <Button type="primary" @click="updateBanner" v-if="bid">更新</Button>
+                    <Button type="primary" @click="updateBanner" v-if="bid" :disabled="statusBool">更新</Button>
                     <Button type="primary" @click="addBanner" v-if='!bid'>增加</Button>
                     <Button @click="clearData" v-if="!bid">清空</Button>
                 </FormItem>
@@ -123,6 +123,7 @@ export default {
               title: '',
               images: ''
           },
+          statusBool: false,
           postData: {},
           rules: {
               type: [{required: true, message: '请选择类型', trigger: 'change', type: "number"}],
@@ -149,7 +150,8 @@ export default {
         this.bid = this.$route.query.bid
         this.$axios({type: 'get', url: "/dabai-chaorenjob/banner/getBannerDetails", data: {bid: this.bid}, fuc: (result) => {
           console.log('res', result)
-          this.form = result.data 
+          this.form = result.data
+            this.statusBool = result.data.status == 1
           this.$nextTick(() => {
             for (let i in result.data.images.split(',')) {
               this.uploadList.push({

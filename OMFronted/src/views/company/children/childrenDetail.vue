@@ -65,7 +65,7 @@
           ],
           mobile: [
             {required: true, message: '请输入手机号', trigger: 'blur'},
-            { pattern: /^\d{11}$/, message: '姓名必须为11位数字', trigger: 'blur' }
+            { pattern: /^\d{11}$/, message: '手机号必须为11位数字', trigger: 'blur' }
           ]
         }
       }

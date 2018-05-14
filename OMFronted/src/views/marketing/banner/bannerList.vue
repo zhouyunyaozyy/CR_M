@@ -82,7 +82,7 @@ export default {
                   title: '发送时间',
                   key: 'create_time',
                   render: (h, params) => {
-                    return h('span', {}, new Date(params.row.create_time).toLocaleString('chinese',{hour12:false}))
+                    return h('span', {}, new Date(parseInt(params.row.modify_time)).toLocaleString('chinese',{hour12:false}))
                   }
               },
               {

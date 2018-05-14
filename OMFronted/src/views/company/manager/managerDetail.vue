@@ -19,7 +19,7 @@
                 </FormItem>
                 <br/>
                 <FormItem>
-                    <Button type="primary" @click="update">修改</Button>
+                    <Button type="primary" @click="update">提交</Button>
                 </FormItem>
             </Col>
         </Row>
@@ -46,7 +46,7 @@
             ],
             username: [
               {required: true, message: '请输入用户名', trigger: 'blur'},
-              {pattern: /^[A-Z0-9]{2,10}$/, message: '必须为2-10位字符，例如：8L', trigger: 'blur'}
+              {pattern: /^[A-Z0-9]{2,10}$/, message: '必须为2-10位大写字母或数字，例如：8L', trigger: 'blur'}
             ],
             name: [
                 {required: true, message: '请输入姓名', trigger: 'blur'},

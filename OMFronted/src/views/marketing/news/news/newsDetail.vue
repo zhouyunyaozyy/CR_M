@@ -691,7 +691,7 @@
         const check = this.uploadList.length < this.imgSize;
         if (!check) {
           this.$Notice.warning({
-            title: '最多可上传的数量为：' + 1
+            title: '最多可上传的数量为：' + this.imgSize
           });
         }
         return check;

@@ -127,6 +127,8 @@ export default {
                 h('Input', {
                   props: {
                     value: this.form.sort,
+                    maxlength: 4,
+
                     autofocus: true,
                     placeholder: '请输入栏目顺序'
                   },

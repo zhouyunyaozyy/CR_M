@@ -63,8 +63,10 @@
           {disabledBool: true, status: false, code: 'experience_item', name: '工作经历'}
         ],
         rules: {
-          name: [{required: true, message: '请输入名称', trigger: 'blur'}],
-          profile: [{required: true, message: '请输入介绍', trigger: 'blur'}]
+          name: [{required: true, message: '请输入名称', trigger: 'blur'},
+            {pattern: /^[\u4e00-\u9fa5]{2,10}$/, message: '2-10位中文', trigger: 'blur'}],
+          profile: [{required: true, message: '请输入介绍', trigger: 'blur'},
+            {pattern: /^.{2,20}$/, message: '2-20位', trigger: 'blur'}]
         }
       }
     },
