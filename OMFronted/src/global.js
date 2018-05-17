@@ -9,10 +9,10 @@ let ceshi = {
 }
 
 let zhengshi = {
-  publicPath: 'http://om.chaorenjob.com/dist/',
+  publicPath: '/dist/',
   api: 'http://api.chaorenjob.com'
 }
 
-module.exports.configSelf = tiaoshi // 调试
+// module.exports.configSelf = tiaoshi // 调试
 // module.exports.configSelf = ceshi // 测试
-// module.exports.configSelf = zhengshi // 正式
+module.exports.configSelf = zhengshi // 正式

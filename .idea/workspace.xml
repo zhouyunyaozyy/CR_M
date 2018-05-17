@@ -2,16 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="06fc289f-4e75-4559-bdbf-c5cc639c4700" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/OMFronted/src/views/statistics/newsStatistics.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OMFronted/src/views/company/children/childrenDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/views/company/children/childrenDetail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OMFronted/src/views/company/children/childrenList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/views/company/children/childrenList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OMFronted/src/views/company/companyControl/companyList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/views/company/companyControl/companyList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OMFronted/src/views/company/manager/managerDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/views/company/manager/managerDetail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OMFronted/src/views/marketing/banner/bannerDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/views/marketing/banner/bannerDetail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OMFronted/src/views/marketing/banner/bannerList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/views/marketing/banner/bannerList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OMFronted/src/views/marketing/competency/competencyDetail2.vue" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/views/marketing/competency/competencyDetail2.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OMFronted/src/views/marketing/news/news/newsDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/views/marketing/news/news/newsDetail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OMFronted/src/views/marketing/news/themeList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/views/marketing/news/themeList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OMFronted/src/global.js" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/global.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OMFronted/src/router/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/router/router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appList/appList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appList/appList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appRecruit/appRecruitDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appRecruit/appRecruitDetail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appRecruit/appRecruitList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appRecruit/appRecruitList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OMFronted/src/views/company/companyControl/companyDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/views/company/companyControl/companyDetail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OMFronted/src/views/feedback/appFeedback.vue" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/views/feedback/appFeedback.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OMFronted/src/views/marketing/launchImage/launchImageDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/views/marketing/launchImage/launchImageDetail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OMFronted/src/views/marketing/systemInforms/systemInformsDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/OMFronted/src/views/marketing/systemInforms/systemInformsDetail.vue" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -25,47 +26,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="bannerList.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/OMFronted/src/views/marketing/banner/bannerList.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1235">
-              <caret line="65" column="33" selection-start-line="65" selection-start-column="33" selection-end-line="65" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="bannerDetail.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/OMFronted/src/views/marketing/banner/bannerDetail.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1881">
-              <caret line="99" column="97" selection-start-line="99" selection-start-column="97" selection-end-line="99" selection-end-column="97" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="launchImageDetail.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OMFronted/src/views/marketing/launchImage/launchImageDetail.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="760">
-              <caret line="56" column="54" selection-start-line="56" selection-start-column="54" selection-end-line="56" selection-end-column="54" />
+            <state relative-caret-position="190">
+              <caret line="46" column="28" selection-start-line="46" selection-start-column="28" selection-end-line="46" selection-end-column="28" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="childrenDetail.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/OMFronted/src/views/company/children/childrenDetail.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="705">
-              <caret line="67" column="76" lean-forward="true" selection-start-line="67" selection-start-column="76" selection-end-line="67" selection-end-column="76" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="managerDetail.vue" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/OMFronted/src/views/company/manager/managerDetail.vue">
+      <file leaf-file-name="appList.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appList/appList.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="285">
-              <caret line="21" column="61" selection-start-line="21" selection-start-column="61" selection-end-line="21" selection-end-column="61" />
+              <caret line="45" column="53" selection-start-line="45" selection-start-column="53" selection-end-line="45" selection-end-column="53" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="global.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/OMFronted/src/global.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="17" column="41" selection-start-line="17" selection-start-column="41" selection-end-line="17" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -81,8 +64,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>drag</find>
-      <find>om</find>
       <find>publicPath</find>
       <find>receive_type1Bool</find>
       <find>on-c</find>
@@ -111,6 +92,8 @@
       <find>status</find>
       <find>200</find>
       <find>handleBeforeUpload</find>
+      <find>audit_mark</find>
+      <find>goTrue</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\Administrator\Desktop\OMFronted</dir>
@@ -125,17 +108,12 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/OMFronted/src/views/Main.vue" />
-        <option value="$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appRecruit/appRecruitList.vue" />
-        <option value="$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appRecruit/appRecruitDetail.vue" />
         <option value="$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/auditManagement/auditManagementList.vue" />
         <option value="$PROJECT_DIR$/OMFronted/src/store/index.js" />
-        <option value="$PROJECT_DIR$/OMFronted/src/views/company/companyControl/companyDetail.vue" />
         <option value="$PROJECT_DIR$/OMFronted/src/views/marketing/competency/competencyList.vue" />
         <option value="$PROJECT_DIR$/OMFronted/src/views/system/appSystem/appSystemList.vue" />
         <option value="$PROJECT_DIR$/OMFronted/src/views/system/appSystem/appSystemDetail.vue" />
-        <option value="$PROJECT_DIR$/OMFronted/src/views/marketing/launchImage/launchImageDetail.vue" />
         <option value="$PROJECT_DIR$/OMFronted/src/views/marketing/launchImage/launchImageList.vue" />
-        <option value="$PROJECT_DIR$/OMFronted/src/views/feedback/appFeedback.vue" />
         <option value="$PROJECT_DIR$/OMFronted/src/views/feedback/hrFeedback.vue" />
         <option value="$PROJECT_DIR$/OMFronted/src/default.json" />
         <option value="$PROJECT_DIR$/OMFronted/src/views/marketing/systemInforms/systemInformsList.vue" />
@@ -144,9 +122,7 @@
         <option value="$PROJECT_DIR$/OMFronted/package.json" />
         <option value="$PROJECT_DIR$/OMFronted/src/template/vue-color-picker/colorPicker.vue" />
         <option value="$PROJECT_DIR$/OMFronted/build/webpack.prod.config.js" />
-        <option value="$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appList/appList.vue" />
         <option value="$PROJECT_DIR$/OMFronted/src/views/company/job/jobList.vue" />
-        <option value="$PROJECT_DIR$/OMFronted/src/views/marketing/systemInforms/systemInformsDetail.vue" />
         <option value="$PROJECT_DIR$/OMFronted/src/views/om-user/userDetail.vue" />
         <option value="$PROJECT_DIR$/OMFronted/src/views/om-user/userList.vue" />
         <option value="$PROJECT_DIR$/OMFronted/src/views/login.vue" />
@@ -155,8 +131,6 @@
         <option value="$PROJECT_DIR$/OMFronted/src/router/index.js" />
         <option value="$PROJECT_DIR$/OMFronted/src/libs/util.js" />
         <option value="$PROJECT_DIR$/OMFronted/src/main.js" />
-        <option value="$PROJECT_DIR$/OMFronted/src/global.js" />
-        <option value="$PROJECT_DIR$/OMFronted/src/router/router.js" />
         <option value="$PROJECT_DIR$/OMFronted/src/views/statistics/userStatistics.vue" />
         <option value="$PROJECT_DIR$/OMFronted/src/views/company/companyControl/companyList.vue" />
         <option value="$PROJECT_DIR$/OMFronted/src/views/company/children/childrenList.vue" />
@@ -167,6 +141,17 @@
         <option value="$PROJECT_DIR$/OMFronted/src/views/marketing/banner/bannerDetail.vue" />
         <option value="$PROJECT_DIR$/OMFronted/src/views/company/children/childrenDetail.vue" />
         <option value="$PROJECT_DIR$/OMFronted/src/views/company/manager/managerDetail.vue" />
+        <option value="$PROJECT_DIR$/OMFronted/README.md" />
+        <option value="$PROJECT_DIR$/OMFronted/src/views/statistics/newsStatistics.vue" />
+        <option value="$PROJECT_DIR$/OMFronted/src/router/router.js" />
+        <option value="$PROJECT_DIR$/OMFronted/src/views/marketing/systemInforms/systemInformsDetail.vue" />
+        <option value="$PROJECT_DIR$/OMFronted/src/views/feedback/appFeedback.vue" />
+        <option value="$PROJECT_DIR$/OMFronted/src/views/company/companyControl/companyDetail.vue" />
+        <option value="$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appRecruit/appRecruitDetail.vue" />
+        <option value="$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appRecruit/appRecruitList.vue" />
+        <option value="$PROJECT_DIR$/OMFronted/src/global.js" />
+        <option value="$PROJECT_DIR$/OMFronted/src/views/marketing/launchImage/launchImageDetail.vue" />
+        <option value="$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appList/appList.vue" />
       </list>
     </option>
   </component>
@@ -185,9 +170,9 @@
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/OMFronted/node_modules" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="481" />
-    <option name="y" value="-1" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="291" />
+    <option name="y" value="85" />
     <option name="width" value="1401" />
     <option name="height" value="1045" />
   </component>
@@ -197,7 +182,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -216,43 +200,11 @@
               <item name="OMFronted" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="OMFronted" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OMFronted" type="462c0819:PsiDirectoryNode" />
-              <item name="OMFronted" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="OMFronted" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OMFronted" type="462c0819:PsiDirectoryNode" />
-              <item name="OMFronted" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="company" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="OMFronted" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OMFronted" type="462c0819:PsiDirectoryNode" />
-              <item name="OMFronted" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="company" type="462c0819:PsiDirectoryNode" />
-              <item name="children" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="OMFronted" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OMFronted" type="462c0819:PsiDirectoryNode" />
-              <item name="OMFronted" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="company" type="462c0819:PsiDirectoryNode" />
-              <item name="manager" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -321,16 +273,18 @@
       <workItem from="1525934266065" duration="1601000" />
       <workItem from="1525936949944" duration="5468000" />
       <workItem from="1526008492780" duration="1655000" />
+      <workItem from="1526265041078" duration="9363000" />
+      <workItem from="1526349377005" duration="4167000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="264347000" />
+    <option name="totallyTimeSpent" value="277877000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="115" y="27" width="1401" height="1045" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.175" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24259928" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.32918552" />
@@ -361,21 +315,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/auditManagement/auditManagementList.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3059">
-          <caret line="215" column="81" selection-start-line="215" selection-start-column="81" selection-end-line="215" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OMFronted/dist/dist/vender-exten.26cc951c334d78731afb.js" />
-    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/my-components/text-editor/tinymce/langs/zh_CN.GB2312.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="131" column="4" selection-start-line="131" selection-start-column="4" selection-end-line="131" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/OMFronted/src/views/system/appSystem/appSystemList.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="633">
@@ -397,13 +336,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/feedback/appFeedback.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3363">
-          <caret line="177" column="24" selection-start-line="177" selection-start-column="24" selection-end-line="184" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/OMFronted/src/views/feedback/hrFeedback.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="263">
@@ -415,13 +347,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="158" column="161" selection-start-line="158" selection-start-column="161" selection-end-line="158" selection-end-column="161" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/marketing/infoPush/infoPushDetail.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="21" lean-forward="true" selection-end-line="169" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -495,20 +420,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appList/appList.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="217" column="12" selection-start-line="217" selection-start-column="12" selection-end-line="217" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/marketing/systemInforms/systemInformsDetail.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="18" column="71" selection-start-line="18" selection-start-column="71" selection-end-line="18" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/OMFronted/src/store/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
@@ -579,13 +490,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OMFronted/src/global.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/OMFronted/src/views/home/home.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
@@ -600,31 +504,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OMFronted/src/router/router.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1083">
-          <caret line="57" column="15" lean-forward="true" selection-start-line="57" selection-start-column="15" selection-end-line="57" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/statistics/userStatistics.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="798">
-          <caret line="42" column="13" lean-forward="true" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/OMFronted/src/views/company/companyControl/companyList.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1026">
           <caret line="54" column="81" selection-start-line="54" selection-start-column="81" selection-end-line="54" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/company/companyControl/companyDetail.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="186" column="55" selection-start-line="186" selection-start-column="55" selection-end-line="186" selection-end-column="55" />
         </state>
       </provider>
     </entry>
@@ -656,13 +539,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appRecruit/appRecruitDetail.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="31" column="105" selection-start-line="31" selection-start-column="102" selection-end-line="31" selection-end-column="105" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/auditManagement/auditManagementDetail.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
@@ -691,24 +567,108 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/marketing/launchImage/launchImageDetail.vue">
+    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/company/children/childrenDetail.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="760">
-          <caret line="56" column="54" selection-start-line="56" selection-start-column="54" selection-end-line="56" selection-end-column="54" />
+        <state relative-caret-position="1273">
+          <caret line="67" column="76" selection-start-line="67" selection-start-column="76" selection-end-line="67" selection-end-column="76" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/company/children/childrenDetail.vue">
+    <entry file="file://$PROJECT_DIR$/OMFronted/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="705">
-          <caret line="67" column="76" lean-forward="true" selection-start-line="67" selection-start-column="76" selection-end-line="67" selection-end-column="76" />
+        <state>
+          <caret column="6" selection-start-column="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/statistics/userStatistics.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="662">
+          <caret line="95" column="5" lean-forward="true" selection-start-line="40" selection-start-column="18" selection-end-line="95" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/statistics/newsStatistics.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="491">
+          <caret line="63" column="38" selection-start-line="63" selection-start-column="38" selection-end-line="63" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OMFronted/src/router/router.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1254">
+          <caret line="393" column="9" lean-forward="true" selection-start-line="393" selection-start-column="9" selection-end-line="393" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/marketing/infoPush/infoPushDetail.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="21" column="70" selection-start-line="21" selection-start-column="70" selection-end-line="21" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/marketing/systemInforms/systemInformsDetail.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="38" column="70" selection-start-line="38" selection-start-column="70" selection-end-line="38" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/feedback/appFeedback.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="779">
+          <caret line="41" column="21" selection-start-line="41" selection-start-column="21" selection-end-line="41" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/OMFronted/src/views/company/manager/managerDetail.vue">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1539">
+          <caret line="81" column="10" selection-start-line="81" selection-start-column="10" selection-end-line="82" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appRecruit/appRecruitDetail.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5415">
+          <caret line="285" column="96" selection-start-line="285" selection-start-column="96" selection-end-line="285" selection-end-column="96" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appRecruit/appRecruitList.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="68" column="75" selection-start-line="68" selection-start-column="75" selection-end-line="68" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/company/companyControl/companyDetail.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3743">
+          <caret line="197" column="24" selection-start-line="197" selection-start-column="24" selection-end-line="197" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/marketing/launchImage/launchImageDetail.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="46" column="28" selection-start-line="46" selection-start-column="28" selection-end-line="46" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OMFronted/src/views/applicationPlatform/appList/appList.vue">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
-          <caret line="21" column="61" selection-start-line="21" selection-start-column="61" selection-end-line="21" selection-end-column="61" />
+          <caret line="45" column="53" selection-start-line="45" selection-start-column="53" selection-end-line="45" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OMFronted/src/global.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="17" column="41" selection-start-line="17" selection-start-column="41" selection-end-line="17" selection-end-column="41" />
         </state>
       </provider>
     </entry>

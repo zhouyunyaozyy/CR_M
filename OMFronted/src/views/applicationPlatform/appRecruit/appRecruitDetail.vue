@@ -148,17 +148,17 @@
                 <div>
                     <pre>{{pageData.profile}}</pre>
                 </div>
-                <h3 v-for="item in rcnidArr" v-if="item.rcnid == pageData.rcnid">{{item.name}}职能相关</h3>
-                <div v-if='pageData.custom_value'>
-<!--                    <p>{{pageData.custom_value[0].modeltype}}</p>-->
-                    <p v-for="item in pageData.custom_value[0]" v-if="item.modeltype === 1 || item.modeltype === 2"><span>{{item.name}}</span><span>{{item.value}}</span></p>
-                    <div v-for="item in pageData.custom_value[0]" v-if="item.modeltype == 3">
-                        <p v-for="item2 in item.config_json" v-if="item.value == item2.code"><span>{{item.name}}</span><span>{{item2.name}}</span></p>
-                    </div>
-                    <div v-for="item in pageData.custom_value[0]" v-if="item.modeltype === 4">
-                        <p><span>{{item.name}}</span><span>{{new Date(parseInt(item.value)).toLocaleString().substr(0,17)}}</span></p>
-                    </div>
-                </div>
+                <!--<h3 v-for="item in rcnidArr" v-if="item.rcnid == pageData.rcnid">{{item.name}}职能相关</h3>-->
+                <!--<div v-if='pageData.custom_value'>-->
+<!--&lt;!&ndash;                    <p>{{pageData.custom_value[0].modeltype}}</p>&ndash;&gt;-->
+                    <!--<p v-for="item in pageData.custom_value[0]" v-if="item.modeltype === 1 || item.modeltype === 2"><span>{{item.name}}</span><span>{{item.value}}</span></p>-->
+                    <!--<div v-for="item in pageData.custom_value[0]" v-if="item.modeltype == 3">-->
+                        <!--<p v-for="item2 in item.config_json" v-if="item.value == item2.code"><span>{{item.name}}</span><span>{{item2.name}}</span></p>-->
+                    <!--</div>-->
+                    <!--<div v-for="item in pageData.custom_value[0]" v-if="item.modeltype === 4">-->
+                        <!--<p><span>{{item.name}}</span><span>{{new Date(parseInt(item.value)).toLocaleString().substr(0,17)}}</span></p>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <h3>工作经历</h3>
                 <div>
                     <div v-for='item in pageData.experiences'>
@@ -282,7 +282,9 @@
               }
             }
             this.$axios({type: 'post', url: url, data: _form, fuc: (res) => {
-              console.log(res)
+                this.$Message.success("操作成功");
+                this.$closeAndGoParent('appRecruit_detail', 'applicationPlatform/appRecruit_list')
+              // console.log(res)
           //     this.$axios({type: 'post', url: "/resume/getNextResumeAudit", data: {}, fuc: (result) => {
           //       this.rid = result.data.rid
           //       this.create_time = result.data.create_time

@@ -42,9 +42,10 @@
             </Modal>
         </FormItem>
         <FormItem label="显示时长" prop="time">
-            <Col span="6">
-                <Input v-model="form.time" placeholder="请输入时长"></Input>
-            </Col>
+                <RadioGroup v-model="form.time">
+                    <Radio :label="3"></Radio>
+                    <Radio :label="5"></Radio>
+                </RadioGroup>
         </FormItem>
         <FormItem label="类型" prop="type">
           <Col span="6">
@@ -88,7 +89,7 @@
         form: {
             name: '',
             type: '',
-            time: '',
+            time: 3,
             args: ''
         },
         rules: {

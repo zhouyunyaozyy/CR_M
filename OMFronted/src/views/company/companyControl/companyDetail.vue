@@ -142,7 +142,7 @@
                     <Cascader :data="localData.area" v-model="form.base_address_arr"></Cascader>
                 </FormItem>
                 <FormItem label="公司简介" prop="profile">
-                    <Input type="textarea" v-model="form.profile"></Input>
+                    <Input type="textarea" v-model="form.profile" :maxlength="800"></Input>
                 </FormItem>
                 <br/>
                 <FormItem v-if='!this.cid'>
@@ -195,7 +195,7 @@ export default {
               fleet_size: [{required: true, message: '请选择规模', trigger: 'change'}],
               base_address_arr: [{type: 'array', required: true, message: '请选择主营基地', trigger: 'change'}],
               profile: [{required: true, message: '请输入简介', trigger: 'blur'},
-                {min: 20, max: 800, message: '长度在 20 到 800 个字符', trigger: 'blur'}]
+                {min: 20, message: '长度在 20 到 800 个字符', trigger: 'blur'}]
           },
           imagesUrl: [],
           dialogImages: '',

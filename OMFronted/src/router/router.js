@@ -390,7 +390,7 @@ export const appRouter = [
         component: Main,
         children: [
           { path: 'userStatistics', title: '用户数据日报', name: 'userStatistics', component: resolve => { require(['@/views/statistics/userStatistics.vue'], resolve); } },
-          // { path: 'user_detail', title: '新增/编辑账号', name: 'user_detail', component: resolve => { require(['@/views/om-user/userDetail.vue'], resolve); } }
+          { path: 'newsStatistics', title: '运营数据日报', name: 'newsStatistics', component: resolve => { require(['@/views/statistics/newsStatistics.vue'], resolve); } }
         ]
     }
 ];

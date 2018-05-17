@@ -38,7 +38,12 @@
           <Input placeholder='手机号/姓名' v-model='formInline.name'></Input>
         </FormItem>
         <FormItem label=''>
-          <Input placeholder='ID' v-model='formInline.uid' :maxlength='20'></Input>
+            <InputNumber
+                    :max="10000000000000000000"
+                    :min="0"
+                    v-model="formInline.uid"  placeholder='ID'
+                    :formatter="value => `${value}`"
+                    :parser="value => value.replace(/[-\.]/g, '')"></InputNumber>
         </FormItem>
         <FormItem>
           <Button @click='searchSure'>查询</Button>
@@ -146,7 +151,7 @@ export default {
             args34: ''
           },
           formInline: {
-            uid: '',
+            uid: 0,
             name: '',
             cert: '',
             status: '',

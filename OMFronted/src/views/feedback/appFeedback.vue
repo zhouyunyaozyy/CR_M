@@ -39,7 +39,7 @@
     </div>
     <div class="table">
         <div>
-            <span>hr反馈列表</span>
+            <span>app反馈列表</span>
         </div>
         <Table
                 :columns="columns" :data="tableData.data" stripe border

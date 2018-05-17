@@ -36,7 +36,7 @@
                     <FormItem v-else-if='form.type == 3 || form.type == 4 || form.type == 6' label="跳转参数" prop="args34">
                         <Input v-model="form.args34" type="textarea" placeholder="请输入跳转参数"></Input>
                     </FormItem>
-                    <FormItem label="是否需要推送">
+                    <FormItem label="是否需要推送" v-if="form.receive != 2">
                         <i-switch v-model="form.push">
                             <span slot="open">是</span>
                             <span slot="close">否</span>
